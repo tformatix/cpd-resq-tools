@@ -14,7 +14,7 @@ class BlattlerScreen extends StatelessWidget {
         child: BlocBuilder<BlattlerCubit, BlattlerState>(
           builder: (context, state) {
             return state.isLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : Text(state.dummyString ?? 'No data');
           },
         ),

@@ -114,13 +114,12 @@ class _ResQToolsHomePageState extends State<ResQToolsHomePage> {
           ),
         ],
       ),
-      body:
-          <Widget>[
-            RescueSheetScreen(),
-            ResistanceScreen(),
-            SubstanceScreen(),
-            BlattlerScreen(),
-          ][currentPageIndex],
+      body: <Widget>[
+        const RescueSheetScreen(),
+        const ResistanceScreen(),
+        const SubstanceScreen(),
+        const BlattlerScreen(),
+      ][currentPageIndex],
     );
   }
 }

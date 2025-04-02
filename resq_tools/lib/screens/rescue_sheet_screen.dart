@@ -14,7 +14,7 @@ class RescueSheetScreen extends StatelessWidget {
         child: BlocBuilder<RescueSheetCubit, RescueSheetState>(
           builder: (context, state) {
             return state.isLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : Text(state.dummyString ?? 'No data');
           },
         ),
