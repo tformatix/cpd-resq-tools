@@ -14,7 +14,7 @@ class SubstanceScreen extends StatelessWidget {
         child: BlocBuilder<SubstanceCubit, SubstanceState>(
           builder: (context, state) {
             return state.isLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : Text(state.dummyString ?? 'No data');
           },
         ),
