@@ -6,7 +6,7 @@
   "substance_title": "Gefahrgut",
   "blattler_title": "Blattler",
 
-  "resistance_weigth": "Gewicht (kN)",
+  "resistance_weight": "Gewicht (kN)",
   "resistance_gradient": "Steigung (°)",
   "resistance_angle": "Winkel",
   "resistance_rolling_resistance": "Rollwiderstand",

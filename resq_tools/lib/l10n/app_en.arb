@@ -6,7 +6,7 @@
   "substance_title": "Substance",
   "blattler_title": "Blattler",
 
-  "resistance_weigth": "Weight (kN)",
+  "resistance_weight": "Weight (kN)",
   "resistance_gradient": "Gradient (°)",
   "resistance_angle": "Angle",
   "resistance_rolling_resistance": "Rolling resistance",

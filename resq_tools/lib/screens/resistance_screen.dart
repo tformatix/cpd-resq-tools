@@ -72,9 +72,9 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              hintText: context.l10n?.resistance_weigth,
+              hintText: context.l10n?.resistance_weight,
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              labelText: context.l10n?.resistance_weigth,
+              labelText: context.l10n?.resistance_weight,
             ),
             onChanged: (value) {
               setState(() {
