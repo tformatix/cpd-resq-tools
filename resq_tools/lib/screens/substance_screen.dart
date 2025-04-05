@@ -74,7 +74,6 @@ class _SubstanceScreenState extends State<SubstanceScreen> {
           padding: EdgeInsets.only(top: 16.0),
           child: FilledButton(
             onPressed: () {
-              // Trigger search in your cubit:
               context.read<SubstanceCubit>().fetchSubstance(
                 _textEditingController.text,
               );

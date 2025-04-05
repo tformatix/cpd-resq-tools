@@ -34,10 +34,10 @@ class SubstanceCubit extends Cubit<SubstanceState> {
   Future<void> fetchSubstance(String substanceNumber) async {
     emit(state.copyWith(isLoading: true, isError: false));
 
-    try {
-      final substance = await substanceRepository.fetchSubstance();
+    final substance = await substanceRepository.fetchSubstance();
+    if (substance != null) {
       emit(SubstanceState(substance: substance));
-    } catch (error) {
+    } else {
       emit(const SubstanceState(isError: true));
     }
   }
