@@ -54,20 +54,20 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: const Text('Suche'),
+          title:  Text(context.l10n?.blattler_search_header ?? 'Search in PDF'),
           content: TextField(
             controller: _searchController,
-            decoration: const InputDecoration(hintText: 'Suchbegriff eingeben'),
+            decoration:  InputDecoration(hintText: context.l10n?.blattler_search_words ?? 'Search'),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Abbrechen'),
+              child:  Text(context.l10n?.blattler_cancel ?? 'Cancel'),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
             ),
             TextButton(
-              child: const Text('Suchen'),
+              child: Text(context.l10n?.blattler_search ?? 'Search'),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
                 _pdfViewerController.searchText(_searchController.text);

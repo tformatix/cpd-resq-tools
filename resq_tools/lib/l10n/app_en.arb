@@ -27,5 +27,8 @@
   "resistance_underground_type_up_to_wheels_in_mud": "Up to wheels in mud",
   "resistance_underground_type_up_to_body_in_mud": "Up to body in mud",
   "resistance_underground_type_rail": "Rail",
-  "resistance_start_calculation": "Start measurement"
-}
+  "blattler_search_words": "Search words",
+  "blattler_search_header": "Search in PDF",
+  "blattler_search": "Search",
+  "blattler_cancel": "Cancel"
+  }
