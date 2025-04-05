@@ -86,7 +86,7 @@ class _ResQToolsHomePageState extends State<ResQToolsHomePage> {
               color: Theme.of(context).colorScheme.onPrimary,
             ),
             icon: const Icon(Icons.car_crash_outlined),
-            label: context.l10n?.rescue_card_title ?? '',
+            label: context.l10n?.rescue_sheet_title ?? '',
           ),
           NavigationDestination(
             selectedIcon: Icon(

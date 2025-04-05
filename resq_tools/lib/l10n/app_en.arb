@@ -1,10 +1,37 @@
 {
   "app_name": "ResQTools",
 
-  "rescue_card_title":"Rescue Card",
+  "rescue_sheet_title":"ResQSheet",
   "resistance_title": "Resistance",
   "substance_title": "Substance",
   "blattler_title": "Blattler",
+
+  "rescue_sheet_textfield_label": "Licence plate (SD-123AB)",
+  "rescue_sheet_licence_plate_result": "Licence plate search",
+  "rescue_sheet_empty_licence_plate_result": "Licence plate not found",
+  "rescue_sheet_euro_rescue_result": "Rescue cards",
+  "rescue_sheet_empty_euro_rescue_result": "No rescue cards found",
+  "rescue_sheet_doors": "doors",
+
+  "powertrain_cng": "CNG",
+  "powertrain_diesel": "Diesel",
+  "powertrain_electric": "Electric",
+  "powertrain_gasoline": "Gasoline",
+  "powertrain_hybrid": "Hybrid",
+  "powertrain_hydrogen": "Hydrogen",
+  "powertrain_lng": "LNG",
+  "powertrain_unknown": "Unknown",
+
+  "body_type_cabrio": "Cabrio",
+  "body_type_coupe": "Coupé",
+  "body_type_hatchback": "Hatchback",
+  "body_type_mpv": "Minivan",
+  "body_type_roadster": "Roadster",
+  "body_type_pickUp": "Pick-up",
+  "body_type_sedan": "Sedan",
+  "body_type_stationwagon": "Stationwagon",
+  "body_type_suv": "SUV",
+  "body_type_van": "Van",
 
   "resistance_weight": "Weight (kN)",
   "resistance_gradient": "Gradient (°)",
@@ -34,5 +61,6 @@
   "substance_hazard_number": "Hazard number",
   "substance_un_number": "UN-Number",
   "substance_properties": "Properties",
-  "substance_search": "Search"
+
+  "text_field_camera_search_button": "Search"
 }

@@ -1,0 +1,37 @@
+name: 'Check commit messages format'
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPOSITORY: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Check for referenced issue
+        run: |
+          url="https://api.github.com/repos/$REPOSITORY/pulls/$PR_NUMBER/commits"
+          commits=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "$url" | jq -r '.[].commit.message | split("\n")[0]')
+          regex="^((#|GH-|gh-)[0-9]+|NOISSUE|Merge|Revert).+"
+
+          echo "Checking commit messages against \"$regex\"..."
+          
+          invalid=$(echo "$commits" | grep -vE $regex || true)
+          
+          if [[ -n "$invalid" ]]; then
+            echo "$invalid" | sed 's/^/❌  /'
+            exit 1
+          fi
+          
+          echo "✅ All commit messages are valid."
