@@ -11,7 +11,7 @@ class SubstanceRepository {
         unNumber: 1203,
         properties: 'Extrem entzündbare Flüssigkeit',
       );
-    } catch (e) {
+    } on Exception catch (_) {
       return null;
     }
   }
