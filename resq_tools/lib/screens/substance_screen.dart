@@ -3,16 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
 import 'package:resq_tools/models/substance/substance_result.dart';
 import 'package:resq_tools/utils/extensions.dart';
+import 'package:resq_tools/widgets/text_field_camera_search.dart';
 
-class SubstanceScreen extends StatefulWidget {
+class SubstanceScreen extends StatelessWidget {
   const SubstanceScreen({super.key});
-
-  @override
-  State<SubstanceScreen> createState() => _SubstanceScreenState();
-}
-
-class _SubstanceScreenState extends State<SubstanceScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +27,12 @@ class _SubstanceScreenState extends State<SubstanceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _showSubstanceSearchContainer(context),
+            TextFieldCameraSearch(
+              labelText: context.l10n?.substance_textfield_label,
+              onSearchClicked:
+                  (String text) =>
+                      context.read<SubstanceCubit>().fetchSubstance(text),
+            ),
 
             const SizedBox(height: 48),
 
@@ -41,47 +40,6 @@ class _SubstanceScreenState extends State<SubstanceScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _showSubstanceSearchContainer(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _textEditingController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: context.l10n?.substance_textfield_label,
-                ),
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.camera_alt),
-              onPressed: () {
-                // TODO: implement camera
-              },
-            ),
-          ],
-        ),
-
-        Padding(
-          padding: EdgeInsets.only(top: 16.0),
-          child: FilledButton(
-            onPressed: () {
-              context.read<SubstanceCubit>().fetchSubstance(
-                _textEditingController.text,
-              );
-            },
-            child: Text('${context.l10n?.substance_search}'),
-          ),
-        ),
-      ],
     );
   }
 

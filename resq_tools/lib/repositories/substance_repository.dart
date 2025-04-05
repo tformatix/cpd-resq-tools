@@ -12,6 +12,7 @@ class SubstanceRepository {
         properties: 'Extrem entzündbare Flüssigkeit',
       );
     } on Exception catch (_) {
+      //TODO: avoid catching all exceptions
       return null;
     }
   }
