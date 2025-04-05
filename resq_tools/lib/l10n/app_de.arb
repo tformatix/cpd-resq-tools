@@ -6,7 +6,7 @@
   "substance_title": "Gefahrgut",
   "blattler_title": "Blattler",
 
-  "resistance_weigth": "Gewicht (kN)",
+  "resistance_weight": "Gewicht (kN)",
   "resistance_gradient": "Steigung (°)",
   "resistance_angle": "Winkel",
   "resistance_rolling_resistance": "Rollwiderstand",
@@ -27,5 +27,12 @@
   "resistance_underground_type_up_to_wheels_in_mud": "Über Räder im Schlamm",
   "resistance_underground_type_up_to_body_in_mud": "Über Aufbau im Schlamm",
   "resistance_underground_type_rail": "Schiene",
-  "resistance_start_calculation": "Messung starten"
+  "resistance_start_calculation": "Messung starten",
+
+  "substance_textfield_label": "Gefahrnummer / UN-Nummer",
+  "substance_name": "Name",
+  "substance_hazard_number": "Gefahrnummer",
+  "substance_un_number": "UN-Nummer",
+  "substance_properties": "Eigenschaften",
+  "substance_search": "Suche"
 }
