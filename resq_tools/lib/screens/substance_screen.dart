@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
-import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/models/substance/substance_result.dart';
+import 'package:resq_tools/utils/extensions.dart';
 
 class SubstanceScreen extends StatefulWidget {
   const SubstanceScreen({super.key});
@@ -101,7 +101,10 @@ class _SubstanceScreenState extends State<SubstanceScreen> {
     );
   }
 
-  Widget _showSubstanceDetails(BuildContext context, SubstanceResult substance) {
+  Widget _showSubstanceDetails(
+    BuildContext context,
+    SubstanceResult substance,
+  ) {
     final l10n = context.l10n;
 
     const double textFontSize = 16.0;
