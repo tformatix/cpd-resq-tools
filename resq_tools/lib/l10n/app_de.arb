@@ -62,5 +62,9 @@
   "substance_un_number": "UN-Nummer",
   "substance_properties": "Eigenschaften",
 
-  "text_field_camera_search_button": "Suche"
+  "text_field_camera_search_button": "Suche",
+  "blattler_search_words": "Sucbegriff eingeben",
+  "blattler_search_header": "In PDF suchen",
+  "blattler_search": "Suchen",
+  "blattler_cancel": "Abbrechen"
 }
