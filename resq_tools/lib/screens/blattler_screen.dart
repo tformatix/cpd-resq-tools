@@ -25,7 +25,7 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n?.blattler_title ?? 'Blattler'),
+        title: Text(context.l10n?.blattler_title ?? ''),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
