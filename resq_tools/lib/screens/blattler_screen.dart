@@ -57,7 +57,9 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
           title:  Text(context.l10n?.blattler_search_header ?? 'Search in PDF'),
           content: TextField(
             controller: _searchController,
-            decoration:  InputDecoration(hintText: context.l10n?.blattler_search_words ?? 'Search'),
+            decoration: InputDecoration(
+              hintText: context.l10n?.blattler_search_words ?? 'Search',
+            ),          
           ),
           actions: <Widget>[
             TextButton(
