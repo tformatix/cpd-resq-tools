@@ -33,6 +33,7 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
         children: [
           TextFieldCameraSearch(
             labelText: context.l10n?.rescue_sheet_textfield_label,
+            isLoading: state.isLoading,
             onSearchClicked:
                 (String text) =>
                     context.read<RescueSheetCubit>().fetchRescueSheet(text),

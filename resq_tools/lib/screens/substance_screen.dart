@@ -29,6 +29,7 @@ class SubstanceScreen extends StatelessWidget {
           children: [
             TextFieldCameraSearch(
               labelText: context.l10n?.substance_textfield_label,
+              isLoading: state.isLoading,
               onSearchClicked:
                   (String text) =>
                       context.read<SubstanceCubit>().fetchSubstance(text),
