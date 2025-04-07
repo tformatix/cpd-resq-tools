@@ -33,14 +33,14 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   labelText: widget.labelText,
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.camera_alt),
+                    onPressed: () {
+                      // TODO: implement camera
+                    },
+                  ),
                 ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.camera_alt),
-              onPressed: () {
-                // TODO: implement camera
-              },
             ),
           ],
         ),
