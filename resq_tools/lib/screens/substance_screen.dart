@@ -52,8 +52,6 @@ class SubstanceScreen extends StatelessWidget {
       children: [
         if (state.isError)
           const Text('An error occurred', style: TextStyle(color: Colors.red))
-        else if (state.isLoading)
-          const Center(child: CircularProgressIndicator())
         else if (substance != null)
           _showSubstanceDetails(context, substance),
       ],
