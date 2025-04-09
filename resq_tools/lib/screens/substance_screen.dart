@@ -29,6 +29,7 @@ class SubstanceScreen extends StatelessWidget {
           children: [
             TextFieldCameraSearch(
               labelText: context.l10n?.substance_textfield_label,
+              isLoading: state.isLoading,
               onSearchClicked:
                   (String text) =>
                       context.read<SubstanceCubit>().fetchSubstance(text),
@@ -51,8 +52,6 @@ class SubstanceScreen extends StatelessWidget {
       children: [
         if (state.isError)
           const Text('An error occurred', style: TextStyle(color: Colors.red))
-        else if (state.isLoading)
-          const Center(child: CircularProgressIndicator())
         else if (substance != null)
           _showSubstanceDetails(context, substance),
       ],

@@ -33,21 +33,19 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
         children: [
           TextFieldCameraSearch(
             labelText: context.l10n?.rescue_sheet_textfield_label,
+            isLoading: state.isLoading,
             onSearchClicked:
                 (String text) =>
                     context.read<RescueSheetCubit>().fetchRescueSheet(text),
           ),
-          if (!state.isInitialState) _showResults(context, state),
+          if (!state.isInitialState && !state.isLoading)
+            _showResults(context, state),
         ],
       ),
     );
   }
 
   Widget _showResults(BuildContext context, RescueSheetState state) {
-    if (state.isLoading) {
-      return const Center(child: LinearProgressIndicator());
-    }
-
     if (state.licencePlateResult == null) {
       return Text(
         context.l10n?.rescue_sheet_empty_licence_plate_result ?? '',
