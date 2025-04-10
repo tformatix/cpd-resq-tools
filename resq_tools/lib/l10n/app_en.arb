@@ -18,9 +18,7 @@
   "powertrain_electric": "Electric",
   "powertrain_gasoline": "Gasoline",
   "powertrain_hybrid": "Hybrid",
-  "powertrain_hydrogen": "Hydrogen",
   "powertrain_lng": "LNG",
-  "powertrain_unknown": "Unknown",
 
   "body_type_cabrio": "Cabrio",
   "body_type_coupe": "Coupé",

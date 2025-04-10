@@ -8,7 +8,8 @@ import 'package:resq_tools/blocs/resistance_cubit.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
 import 'package:resq_tools/l10n/l10n.dart';
 import 'package:resq_tools/repositories/blattler_repository.dart';
-import 'package:resq_tools/repositories/rescue_sheet_repository.dart';
+import 'package:resq_tools/repositories/rescue_sheet/euro_rescue_repository.dart';
+import 'package:resq_tools/repositories/rescue_sheet/licence_plate_repository.dart';
 import 'package:resq_tools/repositories/resistance_repository.dart';
 import 'package:resq_tools/repositories/substance_repository.dart';
 import 'package:resq_tools/screens/blattler_screen.dart';
@@ -26,7 +27,8 @@ class ResQToolsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rescueSheetRepository = RescueSheetRepository();
+    final licencePlateRepository = LicencePlateRepository();
+    final euroRescueRepository = EuroRescueRepository();
     final resistanceRepository = ResistanceRepository();
     final substanceRepository = SubstanceRepository();
     final blattlerRepository = BlattlerRepository();
@@ -40,7 +42,13 @@ class ResQToolsApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => RescueSheetCubit(rescueSheetRepository)),
+        BlocProvider(
+          create:
+              (_) => RescueSheetCubit(
+                licencePlateRepository,
+                euroRescueRepository,
+              ),
+        ),
         BlocProvider(create: (_) => ResistanceCubit(resistanceRepository)),
         BlocProvider(create: (_) => SubstanceCubit(substanceRepository)),
         BlocProvider(create: (_) => BlattlerCubit(blattlerRepository)),
@@ -114,12 +122,13 @@ class _ResQToolsHomePageState extends State<ResQToolsHomePage> {
           ),
         ],
       ),
-      body: <Widget>[
-        const RescueSheetScreen(),
-        const ResistanceScreen(),
-        const SubstanceScreen(),
-        const BlattlerScreen(),
-      ][currentPageIndex],
+      body:
+          <Widget>[
+            const RescueSheetScreen(),
+            const ResistanceScreen(),
+            const SubstanceScreen(),
+            const BlattlerScreen(),
+          ][currentPageIndex],
     );
   }
 }
