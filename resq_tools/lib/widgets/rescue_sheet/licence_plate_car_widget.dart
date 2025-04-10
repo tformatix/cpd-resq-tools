@@ -28,13 +28,14 @@ class LicencePlateCarWidget extends StatelessWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (licencePlateResultCar.initialRegistrationDate != null)
+                Text(
+                  DateFormat(
+                    'dd.MM.yyyy',
+                  ).format(licencePlateResultCar.initialRegistrationDate!),
+                ),
               Text(
-                DateFormat(
-                  'dd.MM.yyyy',
-                ).format(licencePlateResultCar.initialRegistrationDate),
-              ),
-              Text(
-                licencePlateResultCar.powertrain.toLocalizedString(context) ??
+                licencePlateResultCar.powertrain?.toLocalizedString(context) ??
                     '',
               ),
               Text('${licencePlateResultCar.maxTotalWeight} kg'),

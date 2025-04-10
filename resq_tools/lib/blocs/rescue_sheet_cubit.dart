@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_result.dart';
 import 'package:resq_tools/models/rescue_sheet/licence_plate/licence_plate_result.dart';
-import 'package:resq_tools/repositories/rescue_sheet_repository.dart';
+import 'package:resq_tools/repositories/rescue_sheet/euro_rescue_repository.dart';
+import 'package:resq_tools/repositories/rescue_sheet/licence_plate_repository.dart';
 
 class RescueSheetState {
   final bool isInitialState;
@@ -28,16 +29,21 @@ class RescueSheetState {
 }
 
 class RescueSheetCubit extends Cubit<RescueSheetState> {
-  final RescueSheetRepository rescueSheetRepository;
+  final LicencePlateRepository licencePlateRepository;
+  final EuroRescueRepository euroRescueRepository;
 
-  RescueSheetCubit(this.rescueSheetRepository)
+  RescueSheetCubit(this.licencePlateRepository, this.euroRescueRepository)
     : super(const RescueSheetState(isInitialState: true));
 
-  void fetchRescueSheet(String licencePlate) async {
+  void fetchRescueSheet(
+    String licencePlateAuthority,
+    String licencePlateNumber,
+  ) async {
     emit(RescueSheetState(isLoading: true));
 
-    var licencePlateResult = await rescueSheetRepository.fetchLicencePlate(
-      licencePlate,
+    var licencePlateResult = await licencePlateRepository.fetchLicencePlate(
+      licencePlateAuthority,
+      licencePlateNumber,
     );
 
     if (licencePlateResult == null) {
@@ -45,7 +51,7 @@ class RescueSheetCubit extends Cubit<RescueSheetState> {
       return;
     }
 
-    licencePlateResult = await rescueSheetRepository.fetchEuroRescue(
+    licencePlateResult = await euroRescueRepository.fetchEuroRescue(
       licencePlateResult,
     );
     emit(

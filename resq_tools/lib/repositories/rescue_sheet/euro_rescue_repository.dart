@@ -4,44 +4,9 @@ import 'package:resq_tools/models/rescue_sheet/euro_rescue/body_type.dart';
 import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_car.dart';
 import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_document.dart';
 import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_result.dart';
-import 'package:resq_tools/models/rescue_sheet/licence_plate/licence_plate_car.dart';
 import 'package:resq_tools/models/rescue_sheet/licence_plate/licence_plate_result.dart';
-import 'package:resq_tools/models/rescue_sheet/licence_plate/powertrain.dart';
 
-class RescueSheetRepository {
-  Future<LicencePlateResult?> fetchLicencePlate(String licensePlate) async {
-    //TODO: make network request
-    return Future.delayed(
-      Duration(milliseconds: Random().nextInt(2000)),
-      () => LicencePlateResult(
-        cars: [
-          LicencePlateCar(
-            powertrain: Powertrain.gasoline,
-            make: 'BMW',
-            model: '316i',
-            type: 'E90',
-            maxTotalWeight: 1350,
-            initialRegistrationDate: DateTime(2011, 3, 14),
-            vin: 'WVWZZZ1JZ3W386752',
-            variant: 'DA0FCBB12',
-            version: 'BK2G2JBDK5',
-          ),
-          LicencePlateCar(
-            powertrain: Powertrain.gasoline,
-            make: 'Opel',
-            model: 'Astra',
-            type: 'B-K',
-            maxTotalWeight: 1930,
-            initialRegistrationDate: DateTime(2018, 4, 4),
-            vin: 'W0VBXXEK5J8012345',
-            variant: 'DA0FCBB12',
-            version: 'BK2G2JBDK5',
-          ),
-        ],
-      ),
-    );
-  }
-
+class EuroRescueRepository {
   Future<LicencePlateResult?> fetchEuroRescue(
     LicencePlateResult licencePlateResult,
   ) async {
