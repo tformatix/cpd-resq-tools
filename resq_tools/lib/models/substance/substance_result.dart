@@ -3,6 +3,7 @@ class SubstanceResult {
   final String rank;
   final String casNumber;
   final String name;
+  Uri? detailUrl;
 
   SubstanceResult({
     required this.zvgNumber,

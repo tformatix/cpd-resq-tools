@@ -5,6 +5,7 @@ import 'package:resq_tools/models/substance/substance_result.dart';
 import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/substance/substance_result_widget.dart';
 import 'package:resq_tools/widgets/text_field_camera_search.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubstanceScreen extends StatelessWidget {
   const SubstanceScreen({super.key});
@@ -89,7 +90,11 @@ class SubstanceScreen extends StatelessWidget {
               casNumber: substance.casNumber,
               name: substance.name,
               onTap: () {
-                // TODO: implement
+                final url = substance.detailUrl;
+
+                if (url != null) {
+                  launchUrl(url, mode: LaunchMode.externalApplication);
+                }
               },
             ),
           ],

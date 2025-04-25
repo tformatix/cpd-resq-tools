@@ -8,8 +8,9 @@ class SubstanceRepository {
 
   //https://gestis-api.dguv.de/api/search/de?stoffname=&nummern=1203&summenformel=&volltextsuche=&branche=&risikogruppe=&kategorie=&anmerkung=&erweitert=false&exact=true
   static const _searchUrl = '$_baseUrl/search';
-  //https://gestis-api.dguv.de/api/article/de/150866
-  static const _articleUrl = '$_baseUrl/article';
+
+  //https://gestis.dguv.de/data?name=150866&lang=en
+  static const _dataUrl = 'https://gestis.dguv.de/data';
 
   Future<List<SubstanceResult>?> fetchSubstances(
     String languageCode,
@@ -22,8 +23,16 @@ class SubstanceRepository {
       'exact': 'true',
     };
 
-    final localizedUri = _buildLocalizedUri(_searchUrl, languageCode);
-    final uri = localizedUri.replace(queryParameters: queryParameters);
+    final safeLanguageCode =
+        _supportedLanguages.contains(languageCode) ? languageCode : 'de';
+    final localizedUrl = '$_searchUrl/$safeLanguageCode';
+
+    final uri = Uri.tryParse(
+      localizedUrl,
+    )?.replace(queryParameters: queryParameters);
+    if (uri == null) {
+      throw Exception('Invalid URL: $localizedUrl');
+    }
 
     try {
       final response = await http.get(uri);
@@ -32,8 +41,14 @@ class SubstanceRepository {
         final data = json.decode(response.body);
 
         final substanceList = List<SubstanceResult>.from(
-          data.map((item) => SubstanceResult.fromJson(item)),
+          data.map((item) {
+            final substance = SubstanceResult.fromJson(item);
+            final url = _buildSubstanceUrl(languageCode, substance.zvgNumber);
+            substance.detailUrl = url;
+            return substance;
+          }),
         );
+
         return substanceList;
       } else {
         throw Exception('Failed to load data: ${response.statusCode}');
@@ -44,10 +59,18 @@ class SubstanceRepository {
     }
   }
 
-  Uri _buildLocalizedUri(String baseUri, String languageCode) {
+  Uri _buildSubstanceUrl(String languageCode, String zvgNumber) {
     final safeLanguageCode =
         _supportedLanguages.contains(languageCode) ? languageCode : 'de';
 
-    return Uri.parse('$_searchUrl/$safeLanguageCode');
+    final queryParameters = {'name': zvgNumber, 'lang': safeLanguageCode};
+    final uri = Uri.tryParse(
+      _dataUrl,
+    )?.replace(queryParameters: queryParameters);
+    if (uri == null) {
+      throw Exception('Invalid URL: $uri');
+    }
+
+    return uri;
   }
 }
