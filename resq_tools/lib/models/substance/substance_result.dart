@@ -1,13 +1,22 @@
 class SubstanceResult {
+  final String zvgNumber;
+  final String rank;
+  final String casNumber;
   final String name;
-  final int hazardNumber;
-  final int unNumber;
-  final String properties;
 
-  const SubstanceResult({
+  SubstanceResult({
+    required this.zvgNumber,
+    required this.rank,
+    required this.casNumber,
     required this.name,
-    required this.hazardNumber,
-    required this.unNumber,
-    required this.properties,
   });
+
+  factory SubstanceResult.fromJson(Map<String, dynamic> json) {
+    return SubstanceResult(
+      zvgNumber: json['zvg_nr'] ?? '',
+      rank: json['rank'] ?? '',
+      casNumber: json['cas_nr'] ?? '',
+      name: json['name'] ?? '',
+    );
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
 import 'package:resq_tools/models/substance/substance_result.dart';
 import 'package:resq_tools/utils/extensions.dart';
+import 'package:resq_tools/widgets/substance/substance_result_widget.dart';
 import 'package:resq_tools/widgets/text_field_camera_search.dart';
 
 class SubstanceScreen extends StatelessWidget {
@@ -28,16 +29,20 @@ class SubstanceScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFieldCameraSearch(
-              labelText: context.l10n?.substance_textfield_label,
+              labelText: context.l10n?.substance_text_field_label,
               isLoading: state.isLoading,
               onSearchClicked:
-                  (String text) =>
-                      context.read<SubstanceCubit>().fetchSubstance(text),
+                  (String unNumber) =>
+                      context.read<SubstanceCubit>().fetchSubstances(
+                        unNumber,
+                        Localizations.localeOf(context).languageCode,
+                      ),
             ),
 
-            const SizedBox(height: 48),
+            const SizedBox(height: 32),
 
-            _showSubstanceResult(context, state),
+            if (!state.isLoading && !state.isInitialState)
+              _showSubstanceResult(context, state),
           ],
         ),
       ),
@@ -45,79 +50,51 @@ class SubstanceScreen extends StatelessWidget {
   }
 
   Widget _showSubstanceResult(BuildContext context, SubstanceState state) {
-    final substance = state.substance;
+    if (state.isError) {
+      return Text(
+        '${context.l10n?.substance_error}',
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+        textAlign: TextAlign.center,
+      );
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (state.isError)
-          const Text('An error occurred', style: TextStyle(color: Colors.red))
-        else if (substance != null)
-          _showSubstanceDetails(context, substance),
+        if (state.isEmptyResult)
+          Text('${context.l10n?.substance_no_result}')
+        else
+          _showSubstanceList(context, state.substancesList),
       ],
     );
   }
 
-  Widget _showSubstanceDetails(
+  Widget _showSubstanceList(
     BuildContext context,
-    SubstanceResult substance,
+    List<SubstanceResult>? substancesList,
   ) {
-    final l10n = context.l10n;
+    if (substancesList == null) return const SizedBox.shrink();
 
-    const double textFontSize = 16.0;
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: substancesList.length,
+      itemBuilder: (context, index) {
+        final substance = substancesList[index];
+        return Column(
+          children: [
+            if (index > 0) const SizedBox(height: 4),
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text.rich(
-          TextSpan(
-            style: TextStyle(fontSize: textFontSize),
-            children: [
-              TextSpan(
-                text: '${l10n?.substance_name}: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              TextSpan(text: substance.name),
-            ],
-          ),
-        ),
-        Text.rich(
-          TextSpan(
-            style: TextStyle(fontSize: textFontSize),
-            children: [
-              TextSpan(
-                text: '${l10n?.substance_hazard_number}: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              TextSpan(text: '${substance.hazardNumber}'),
-            ],
-          ),
-        ),
-        Text.rich(
-          TextSpan(
-            style: TextStyle(fontSize: textFontSize),
-            children: [
-              TextSpan(
-                text: '${l10n?.substance_un_number}: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              TextSpan(text: '${substance.unNumber}'),
-            ],
-          ),
-        ),
-        Text.rich(
-          TextSpan(
-            style: TextStyle(fontSize: textFontSize),
-            children: [
-              TextSpan(
-                text: '${l10n?.substance_properties}: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              TextSpan(text: substance.properties),
-            ],
-          ),
-        ),
-      ],
+            SubstanceResultWidget(
+              casNumber: substance.casNumber,
+              name: substance.name,
+              onTap: () {
+                // TODO: implement
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

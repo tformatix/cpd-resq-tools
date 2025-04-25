@@ -68,6 +68,8 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
                 widget.isLoading
                     ? null
                     : () {
+                      if (_textEditingController.text.isEmpty) return;
+
                       widget.onSearchClicked(_textEditingController.text);
                     },
             child: Padding(

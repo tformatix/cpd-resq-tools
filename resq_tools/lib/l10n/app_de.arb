@@ -54,13 +54,17 @@
   "resistance_underground_type_rail": "Schiene",
   "resistance_start_calculation": "Messung starten",
 
-  "substance_textfield_label": "Gefahrnummer / UN-Nummer",
+  "substance_text_field_label": "UN-Nummer",
   "substance_name": "Name",
   "substance_hazard_number": "Gefahrnummer",
   "substance_un_number": "UN-Nummer",
   "substance_properties": "Eigenschaften",
+  "substance_no_result": "Kein Gefahrgut gefunden",
+  "substance_error": "Fehler bei der Abfrage von Gefahrgut",
+  "substance_cas_number": "CAS-Nummer",
 
   "text_field_camera_search_button": "Suche",
+
   "blattler_search_words": "Sucbegriff eingeben",
   "blattler_search_header": "In PDF suchen",
   "blattler_search": "Suchen",
