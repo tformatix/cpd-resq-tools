@@ -2,15 +2,15 @@ import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_result.da
 import 'package:resq_tools/models/rescue_sheet/licence_plate/powertrain.dart';
 
 class LicencePlateCar {
-  final Powertrain powertrain;
-  final String make;
-  final String model;
-  final String type;
-  final int maxTotalWeight;
-  final DateTime initialRegistrationDate;
-  final String vin;
-  final String variant;
-  final String version;
+  final Powertrain? powertrain;
+  final String? make;
+  final String? model;
+  final String? type;
+  final int? maxTotalWeight;
+  final DateTime? initialRegistrationDate;
+  final String? vin;
+  final String? variant;
+  final String? version;
 
   EuroRescueResult? euroRescueResult;
 

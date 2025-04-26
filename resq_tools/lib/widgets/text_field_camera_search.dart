@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 class TextFieldCameraSearch extends StatefulWidget {
+  final String? initialText;
   final String? labelText;
   final Function(String) onSearchClicked;
   final bool isLoading;
 
   const TextFieldCameraSearch({
     super.key,
+    this.initialText,
     required this.labelText,
     required this.onSearchClicked,
     required this.isLoading,
@@ -19,6 +21,14 @@ class TextFieldCameraSearch extends StatefulWidget {
 
 class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
   final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.initialText != null) {
+      _textEditingController.text = widget.initialText!;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
