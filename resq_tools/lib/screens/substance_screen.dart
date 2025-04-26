@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
+import 'package:resq_tools/models/common/camera_ocr_type.dart';
 import 'package:resq_tools/models/substance/substance_result.dart';
 import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/text_field_camera_search.dart';
@@ -33,6 +34,7 @@ class SubstanceScreen extends StatelessWidget {
               onSearchClicked:
                   (String text) =>
                       context.read<SubstanceCubit>().fetchSubstance(text),
+              ocrType: CameraOcrType.substance,
             ),
 
             const SizedBox(height: 48),

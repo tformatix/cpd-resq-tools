@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:resq_tools/models/common/camera_ocr_type.dart';
+import 'package:resq_tools/screens/camera_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 class TextFieldCameraSearch extends StatefulWidget {
   final String? initialText;
   final String? labelText;
   final Function(String) onSearchClicked;
+  final CameraOcrType ocrType;
   final bool isLoading;
 
   const TextFieldCameraSearch({
@@ -12,6 +15,7 @@ class TextFieldCameraSearch extends StatefulWidget {
     this.initialText,
     required this.labelText,
     required this.onSearchClicked,
+    required this.ocrType,
     required this.isLoading,
   });
 
@@ -47,8 +51,19 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
                   labelText: widget.labelText,
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.camera_alt),
-                    onPressed: () {
-                      // TODO: implement camera
+                    onPressed: () async {
+                      final result = await Navigator.push<String>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CameraScreen(ocrType: widget.ocrType);
+                          },
+                        ),
+                      );
+
+                      if (result != null) {
+                        _textEditingController.text = result;
+                      }
                     },
                   ),
                 ),
