@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 class TextFieldCameraSearch extends StatefulWidget {
@@ -6,6 +7,7 @@ class TextFieldCameraSearch extends StatefulWidget {
   final String? labelText;
   final Function(String) onSearchClicked;
   final bool isLoading;
+  final List<TextInputFormatter>? inputFormatters;
 
   const TextFieldCameraSearch({
     super.key,
@@ -13,6 +15,7 @@ class TextFieldCameraSearch extends StatefulWidget {
     required this.labelText,
     required this.onSearchClicked,
     required this.isLoading,
+    this.inputFormatters,
   });
 
   @override
@@ -42,6 +45,7 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
               child: TextField(
                 controller: _textEditingController,
                 keyboardType: TextInputType.number,
+                inputFormatters: widget.inputFormatters,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   labelText: widget.labelText,

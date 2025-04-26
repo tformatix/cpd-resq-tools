@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
 import 'package:resq_tools/models/substance/substance_result.dart';
@@ -32,6 +33,10 @@ class SubstanceScreen extends StatelessWidget {
             TextFieldCameraSearch(
               labelText: context.l10n?.substance_text_field_label,
               isLoading: state.isLoading,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(4),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               onSearchClicked:
                   (String unNumber) =>
                       context.read<SubstanceCubit>().fetchSubstances(

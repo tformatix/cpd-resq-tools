@@ -38,8 +38,8 @@ class LicencePlateRepository {
       );
 
       return LicencePlateResult.fromHtml(searchResponse.body);
-    } catch (e) {
-      rethrow;
+    } on Exception catch (_) {
+      return null;
     } finally {
       client.close();
     }
