@@ -54,7 +54,7 @@
   "resistance_underground_type_rail": "Rail",
   "resistance_start_calculation": "Start measurement",
 
-  "substance_text_field_label": "UN-Number",
+  "substance_text_field_label": "UN-Number (4 digits)",
   "substance_name": "Name",
   "substance_hazard_number": "Hazard number",
   "substance_un_number": "UN-Number",

@@ -54,7 +54,7 @@
   "resistance_underground_type_rail": "Schiene",
   "resistance_start_calculation": "Messung starten",
 
-  "substance_text_field_label": "UN-Nummer",
+  "substance_text_field_label": "UN-Nummer (4 Ziffern)",
   "substance_name": "Name",
   "substance_hazard_number": "Gefahrnummer",
   "substance_un_number": "UN-Nummer",
