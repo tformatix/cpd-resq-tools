@@ -1,5 +1,5 @@
 class ResistanceResult {
-  final int angle;
+  final double angle;
   final double rollingResistance;
   final double gradientResistance;
   final double overallResistance;

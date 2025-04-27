@@ -78,5 +78,6 @@
   "camera_image_source_gallery": "Galerie",
   "camera_image_source_camera": "Kamera",
   "camera_result_nothing_found": "Nichts gefunden",
-  "camera_dialog_close": "Schließen"
+  "camera_dialog_close": "Schließen",
+  "resistance_angle_label": "Winkel berechnen"
 }

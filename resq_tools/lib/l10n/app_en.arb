@@ -78,5 +78,8 @@
   "camera_image_source_gallery": "Gallery",
   "camera_image_source_camera": "Camera",
   "camera_result_nothing_found": "Nothing found",
-  "camera_dialog_close": "Close"
+  "camera_dialog_close": "Close",
+
+  "resistance_angle_label": "Calculate angle"
+
 }
