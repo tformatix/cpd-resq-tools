@@ -12,12 +12,11 @@ class SubstanceResult {
     required this.name,
   });
 
-  factory SubstanceResult.fromJson(Map<String, dynamic> json) {
-    return SubstanceResult(
-      zvgNumber: json['zvg_nr'] ?? '',
-      rank: json['rank'] ?? '',
-      casNumber: json['cas_nr'] ?? '',
-      name: json['name'] ?? '',
-    );
-  }
+  factory SubstanceResult.fromJson(Map<String, dynamic> json) =>
+      SubstanceResult(
+        zvgNumber: json['zvg_nr'] ?? '',
+        rank: json['rank'] ?? '',
+        casNumber: json['cas_nr'] ?? '',
+        name: json['name'] ?? '',
+      );
 }

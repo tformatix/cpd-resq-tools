@@ -14,17 +14,15 @@ class SubstanceResultWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-        trailing: Icon(Icons.open_in_browser),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text('${context.l10n?.substance_cas_number}: $casNumber')],
-        ),
-        onTap: onTap,
+  Widget build(BuildContext context) => Card(
+    child: ListTile(
+      title: Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+      trailing: Icon(Icons.open_in_browser),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [Text('${context.l10n?.substance_cas_number}: $casNumber')],
       ),
-    );
-  }
+      onTap: onTap,
+    ),
+  );
 }
