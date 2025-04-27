@@ -55,12 +55,10 @@ class _AngleMeasurementScreenState extends State<AngleMeasurementScreen> {
         body: Stack(
           alignment: Alignment.center,
           children: [
-            // Wasserwaagenanzeige mit Linie und Füllung
             CustomPaint(
               size: size,
               painter: _LevelPainter(_angle),
             ),
-            // Winkel-Text oben
             Positioned(
               top: 40,
               left: 0,
