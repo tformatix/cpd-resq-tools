@@ -17,6 +17,7 @@ dependencies:
   google_mlkit_text_recognition: ^0.15.0
   intl: ^0.19.0
   syncfusion_flutter_pdfviewer: ^29.1.35
+  url_launcher: ^6.3.1
   image_picker: ^1.1.2
 
 dev_dependencies:

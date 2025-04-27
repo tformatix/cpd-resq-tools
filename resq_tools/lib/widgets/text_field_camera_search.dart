@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
 import 'package:resq_tools/screens/camera_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
@@ -9,6 +10,7 @@ class TextFieldCameraSearch extends StatefulWidget {
   final Function(String) onSearchClicked;
   final CameraOcrType ocrType;
   final bool isLoading;
+  final List<TextInputFormatter>? inputFormatters;
 
   const TextFieldCameraSearch({
     super.key,
@@ -17,6 +19,7 @@ class TextFieldCameraSearch extends StatefulWidget {
     required this.onSearchClicked,
     required this.ocrType,
     required this.isLoading,
+    this.inputFormatters,
   });
 
   @override
@@ -46,6 +49,7 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
               child: TextField(
                 controller: _textEditingController,
                 keyboardType: TextInputType.number,
+                inputFormatters: widget.inputFormatters,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   labelText: widget.labelText,
@@ -83,6 +87,8 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
                 widget.isLoading
                     ? null
                     : () {
+                      if (_textEditingController.text.isEmpty) return;
+
                       widget.onSearchClicked(_textEditingController.text);
                     },
             child: Padding(
