@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
+import 'package:resq_tools/models/common/camera_ocr_type.dart';
 import 'package:resq_tools/models/substance/substance_result.dart';
 import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/substance/substance_result_widget.dart';
@@ -37,6 +38,7 @@ class SubstanceScreen extends StatelessWidget {
                 LengthLimitingTextInputFormatter(4),
                 FilteringTextInputFormatter.digitsOnly,
               ],
+              ocrType: CameraOcrType.substance,
               onSearchClicked:
                   (String unNumber) =>
                       context.read<SubstanceCubit>().fetchSubstances(

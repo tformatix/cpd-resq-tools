@@ -68,5 +68,15 @@
   "blattler_search_words": "Sucbegriff eingeben",
   "blattler_search_header": "In PDF suchen",
   "blattler_search": "Suchen",
-  "blattler_cancel": "Abbrechen"
+  "blattler_cancel": "Abbrechen",
+
+  "camera_title_license_plate": "Kennzeichen",
+  "camera_title_un_number": "UN-Nummer",
+  "camera_take_or_choose_photo": "Foto machen oder auswählen",
+  "camera_choose_image_source": "Bildquelle auswählen",
+  "camera_choose_image_source_description": "Möchten Sie ein Foto machen oder eines aus der Galerie auswählen?",
+  "camera_image_source_gallery": "Galerie",
+  "camera_image_source_camera": "Kamera",
+  "camera_result_nothing_found": "Nichts gefunden",
+  "camera_dialog_close": "Schließen"
 }
