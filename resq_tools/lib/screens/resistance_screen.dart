@@ -6,6 +6,7 @@ import 'package:resq_tools/models/resistance/resistance_result.dart';
 import 'package:resq_tools/models/resistance/underground_type.dart';
 import 'package:resq_tools/models/resistance/vehicle_type.dart';
 import 'package:resq_tools/utils/extensions.dart';
+import 'package:resq_tools/screens/angle_measurement_screen.dart';
 
 class ResistanceScreen extends StatefulWidget {
   const ResistanceScreen({super.key});
@@ -17,10 +18,12 @@ class ResistanceScreen extends StatefulWidget {
 class _ResistanceScreenState extends State<ResistanceScreen> {
   MeasurementConfig _measurementConfig = MeasurementConfig.empty();
   final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _angleController = TextEditingController();
 
   @override
   void initState() {
     _weightController.text = _measurementConfig.weight.toString();
+    _angleController.text = _measurementConfig.angle?.toStringAsFixed(1) ?? '';
     super.initState();
   }
 
@@ -86,6 +89,40 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
             },
           ),
           const SizedBox(height: 12),
+          TextField(
+            controller: _angleController,
+            readOnly: true,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: context.l10n?.resistance_angle_label
+                  ?? 'Neigungswinkel (°)',
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.straighten),
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
+                  final cubit = context.read<ResistanceCubit>();
+
+                  final result = await navigator.push<double>(
+                    MaterialPageRoute(
+                      builder: (_) => const AngleMeasurementScreen(),
+                    ),
+                  );
+
+                  if (result != null) {
+                    setState(() {
+                      _angleController.text = result.toStringAsFixed(1);
+                      _measurementConfig = _measurementConfig.copyWith(
+                        angle: result,
+                      );
+                    });
+                    cubit.updateMeasurementConfig(_measurementConfig);
+                  }
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
           DropdownMenu<UndergroundType>(
             width: double.infinity,
             initialSelection: _measurementConfig.undergroundType,
@@ -129,6 +166,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
   ) => Column(
     children: [
       Text('${context.l10n?.resistance_angle}: ${resistanceResult?.angle}'),
+
       Text(
         '${context.l10n?.resistance_rolling_resistance}: '
         '${resistanceResult?.rollingResistance}',
@@ -162,6 +200,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
   @override
   void dispose() {
     _weightController.dispose();
+    _angleController.dispose();
     super.dispose();
   }
 }

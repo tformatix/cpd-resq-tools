@@ -5,25 +5,30 @@ class MeasurementConfig {
   final VehicleType vehicleType;
   final int weight;
   final UndergroundType undergroundType;
+  final double? angle;
 
-  const MeasurementConfig(
-      {required this.vehicleType,
-      required this.weight,
-      required this.undergroundType});
+  const MeasurementConfig({
+    required this.vehicleType,
+    required this.weight,
+    required this.undergroundType,
+    this.angle,
+  });
 
   MeasurementConfig.empty()
-      : vehicleType = VehicleType.car,
-        weight = 0,
-        undergroundType = UndergroundType.aphalt;
+    : vehicleType = VehicleType.car,
+      weight = 0,
+      undergroundType = UndergroundType.aphalt,
+      angle = null;
 
   MeasurementConfig copyWith({
     VehicleType? vehicleType,
     int? weight,
     UndergroundType? undergroundType,
-  }) =>
-      MeasurementConfig(
-        vehicleType: vehicleType ?? this.vehicleType,
-        weight: weight ?? this.weight,
-        undergroundType: undergroundType ?? this.undergroundType,
-      );
+    double? angle,
+  }) => MeasurementConfig(
+    vehicleType: vehicleType ?? this.vehicleType,
+    weight: weight ?? this.weight,
+    undergroundType: undergroundType ?? this.undergroundType,
+    angle: angle ?? this.angle
+  );
 }
