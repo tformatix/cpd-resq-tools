@@ -3,27 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 enum Powertrain {
-  cng('CNG'),
-  diesel('Diesel'),
-  electric('Elektro'),
-  gasoline('Benzin'),
-  hybrid('Hybr.'),
-  lng('LNG');
+  cng('CNG', 'CNG', isPartialMatch: true),
+  diesel('Diesel', 'Diesel'),
+  electric('Elektro', 'Electric'),
+  gasoline('Benzin', 'Gasoline'),
+  hybrid('Hybr.', 'Hybrid', isPartialMatch: true),
+  lng('LNG', 'LNG', isPartialMatch: true),
+  undefined('', '');
 
   static const _pattern = r'(.*) &nbsp;.*';
-  final String apiIdentifier;
+  final String licencePlateIdentifier;
+  final String euroRescueIdentifier;
+  final bool isPartialMatch;
 
-  const Powertrain(this.apiIdentifier);
+  const Powertrain(
+    this.licencePlateIdentifier,
+    this.euroRescueIdentifier, {
+    this.isPartialMatch = false,
+  });
 
-  static Powertrain? from(String? input) {
-    if (input == null) return null;
+  factory Powertrain.from(String? input) {
+    if (input == null) return Powertrain.undefined;
 
     final regex = RegExp(_pattern);
     final parsedInput = regex.firstMatch(input)?.group(1);
 
     return Powertrain.values.firstWhereOrNull(
-      (pt) => pt.apiIdentifier == parsedInput,
-    );
+          (pt) =>
+              pt.isPartialMatch
+                  ? parsedInput?.contains(pt.licencePlateIdentifier) == true
+                  : parsedInput == pt.licencePlateIdentifier,
+        ) ??
+        Powertrain.undefined;
   }
 
   String? toLocalizedString(BuildContext context) {
@@ -34,6 +45,7 @@ enum Powertrain {
       Powertrain.gasoline => context.l10n?.powertrain_gasoline,
       Powertrain.hybrid => context.l10n?.powertrain_hybrid,
       Powertrain.lng => context.l10n?.powertrain_lng,
+      Powertrain.undefined => context.l10n?.powertrain_undefined,
     };
   }
 }

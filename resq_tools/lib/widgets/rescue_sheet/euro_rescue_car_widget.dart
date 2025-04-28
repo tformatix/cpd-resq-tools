@@ -20,11 +20,16 @@ class EuroRescueCarWidget extends StatelessWidget {
         child: ListTile(
           title: Text('${euroRescueCar.makeName} ${euroRescueCar.modelName}'),
           trailing: Icon(Icons.arrow_forward_ios),
-          leading: Image.network(
-            euroRescueCar.pictureUrl,
+          leading: SizedBox(
             width: 100,
             height: 50,
-            fit: BoxFit.cover,
+            child:
+                euroRescueCar.pictureUrl != null
+                    ? Image.network(
+                      euroRescueCar.pictureUrl!,
+                      fit: BoxFit.cover,
+                    )
+                    : const Icon(Icons.image_not_supported, size: 50),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

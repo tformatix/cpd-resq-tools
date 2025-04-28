@@ -19,6 +19,7 @@
   "powertrain_gasoline": "Gasoline",
   "powertrain_hybrid": "Hybrid",
   "powertrain_lng": "LNG",
+  "powertrain_undefined": "Undefined",
 
   "body_type_cabrio": "Cabrio",
   "body_type_coupe": "Coupé",
@@ -30,6 +31,7 @@
   "body_type_stationwagon": "Stationwagon",
   "body_type_suv": "SUV",
   "body_type_van": "Van",
+  "body_type_undefined": "Undefiniert",
 
   "resistance_weight": "Weight (kN)",
   "resistance_gradient": "Gradient (°)",

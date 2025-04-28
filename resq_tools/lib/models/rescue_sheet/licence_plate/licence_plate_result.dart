@@ -8,11 +8,11 @@ class LicencePlateResult {
 
   const LicencePlateResult({required this.cars});
 
-  static LicencePlateResult? fromHtml(String html) {
-    if (html.isEmpty) return null;
+  factory LicencePlateResult.fromHtml(String html) {
+    if (html.isEmpty) return LicencePlateResult(cars: []);
 
     final parsedCarValues = _extractKeyValuePairs(html);
-    if (parsedCarValues.isEmpty) return null;
+    if (parsedCarValues.isEmpty) return LicencePlateResult(cars: []);
 
     final cars =
         parsedCarValues.map((values) {
