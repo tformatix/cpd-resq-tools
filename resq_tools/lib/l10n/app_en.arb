@@ -12,6 +12,7 @@
   "rescue_sheet_euro_rescue_result": "Rescue cards",
   "rescue_sheet_empty_euro_rescue_result": "No rescue cards found",
   "rescue_sheet_doors": "doors",
+  "rescue_sheet_no_rescue_card_found_for_car": "No rescue card available for this car!",
 
   "powertrain_cng": "CNG",
   "powertrain_diesel": "Diesel",

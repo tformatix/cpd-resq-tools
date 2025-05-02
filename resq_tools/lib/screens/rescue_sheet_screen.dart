@@ -6,6 +6,7 @@ import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/rescue_sheet/euro_rescue_car_widget.dart';
 import 'package:resq_tools/widgets/rescue_sheet/licence_plate_car_widget.dart';
 import 'package:resq_tools/widgets/text_field_camera_search.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RescueSheetScreen extends StatefulWidget {
   const RescueSheetScreen({super.key});
@@ -126,7 +127,29 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
           result.cars.map((car) {
             return EuroRescueCarWidget(
               euroRescueCar: car,
-              onTap: () {}, // TODO: Implement onTap action
+              onTap: () {
+                var deviceLanguageCode =
+                    Localizations.localeOf(context).languageCode;
+
+                var localizedUrl = context
+                    .read<RescueSheetCubit>()
+                    .getLocalizedDocumentUri(deviceLanguageCode, car.documents);
+
+                if (localizedUrl != null) {
+                  launchUrl(
+                    localizedUrl,
+                    mode: LaunchMode.externalNonBrowserApplication,
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('''
+${context.l10n?.rescue_sheet_no_rescue_card_found_for_car}'''),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                }
+              },
             );
           }).toList(),
     );
