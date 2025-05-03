@@ -30,23 +30,21 @@ class EuroRescueCar {
     required this.pictureUrl,
   });
 
-  factory EuroRescueCar.fromJson(Map<String, dynamic> json) {
-    return EuroRescueCar(
-      name: json['name'],
-      makeId: json['make_id'],
-      makeName: json['make_name'],
-      modelId: json['model_id'],
-      modelName: json['model_name'],
-      bodyType: BodyType.from(json['body_type']),
-      buildYearFrom: int.parse(json['build_year_from']),
-      buildYearUntil: int.tryParse(json['build_year_until'] ?? ''),
-      doors: json['doors'],
-      powertrain: json['powertrain'],
-      documents:
-          (json['documents'] as List)
-              .map((doc) => EuroRescueResultDocument.fromJson(doc))
-              .toList(),
-      pictureUrl: json['picture_url'],
-    );
-  }
+  factory EuroRescueCar.fromJson(Map<String, dynamic> json) => EuroRescueCar(
+    name: json['name'],
+    makeId: json['make_id'],
+    makeName: json['make_name'],
+    modelId: json['model_id'],
+    modelName: json['model_name'],
+    bodyType: BodyType.from(json['body_type']),
+    buildYearFrom: int.parse(json['build_year_from']),
+    buildYearUntil: int.tryParse(json['build_year_until'] ?? ''),
+    doors: json['doors'],
+    powertrain: json['powertrain'],
+    documents:
+        (json['documents'] as List)
+            .map((doc) => EuroRescueResultDocument.fromJson(doc))
+            .toList(),
+    pictureUrl: json['picture_url'],
+  );
 }

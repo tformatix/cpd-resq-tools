@@ -75,8 +75,9 @@ class EuroRescueRepository {
       final from = car.buildYearFrom;
       final until = car.buildYearUntil;
 
-      if (until == null) return from <= registrationYear;
-      return registrationYear >= from && registrationYear <= until;
+      return until == null
+          ? from <= registrationYear
+          : registrationYear >= from && registrationYear <= until;
     }).toList();
   }
 
