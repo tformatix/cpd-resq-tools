@@ -80,6 +80,8 @@
   "camera_result_nothing_found": "Nothing found",
   "camera_dialog_close": "Close",
 
-  "resistance_angle_label": "Calculate angle"
+  "resistance_angle_label": "Calculate angle",
+  "angle_measurement_exit": "Tap to exit"
+
 
 }
