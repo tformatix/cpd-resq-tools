@@ -17,7 +17,7 @@ class MeasurementConfig {
   MeasurementConfig.empty()
     : vehicleType = VehicleType.car,
       weight = 0,
-      undergroundType = UndergroundType.aphalt,
+      undergroundType = UndergroundType.asphalt,
       angle = null;
 
   MeasurementConfig copyWith({
@@ -29,6 +29,6 @@ class MeasurementConfig {
     vehicleType: vehicleType ?? this.vehicleType,
     weight: weight ?? this.weight,
     undergroundType: undergroundType ?? this.undergroundType,
-    angle: angle ?? this.angle
+    angle: angle ?? this.angle,
   );
 }

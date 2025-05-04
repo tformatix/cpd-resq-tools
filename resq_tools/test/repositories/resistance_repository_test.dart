@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:resq_tools/models/resistance/measurement_config.dart';
 import 'package:resq_tools/models/resistance/underground_type.dart';
@@ -5,20 +7,42 @@ import 'package:resq_tools/models/resistance/vehicle_type.dart';
 import 'package:resq_tools/repositories/resistance_repository.dart';
 
 void main() {
-  // TODO #9: Add real test cases once the full implementation is done
   group('ResistanceRepository', () {
-    test('calculateResistance', () {
+    test(
+      'calculateResistance returns correct values for asphalt + 30° angle',
+      () {
+        // Arrange
+        final repository = ResistanceRepository();
+        final config = MeasurementConfig(
+          vehicleType: VehicleType.car,
+          weight: 1000,
+          undergroundType: UndergroundType.asphalt,
+          angle: 30 * pi / 180,
+        );
+
+        // Act
+        final result = repository.calculateResistance(config);
+
+        // Assert
+        final expectedRolling =
+            config.weight * config.undergroundType.rollingResistanceCoefficient;
+        final expectedGradient = config.weight * sin(config.angle!);
+        final expectedTotal = expectedRolling + expectedGradient;
+
+        expect(result, isNotNull);
+        expect(result!.rollingResistance, closeTo(expectedRolling, 0.001));
+        expect(result.gradientResistance, closeTo(expectedGradient, 0.001));
+        expect(result.overallResistance, closeTo(expectedTotal, 0.001));
+      },
+    );
+
+    test('calculateResistance handles null config gracefully', () {
       final repository = ResistanceRepository();
-      final config = MeasurementConfig(
-        vehicleType: VehicleType.car,
-        weight: 75,
-        undergroundType: UndergroundType.aphalt,
-      );
-      final result = repository.calculateResistance(config);
-      expect(result?.angle, inClosedOpenRange(0, 50));
-      expect(result?.rollingResistance, inClosedOpenRange(0, 100));
-      expect(result?.gradientResistance, inClosedOpenRange(0, 100));
-      expect(result?.overallResistance, inClosedOpenRange(0, 2000));
+      final result = repository.calculateResistance(null);
+      expect(result, isNotNull);
+      expect(result!.rollingResistance, 0.0);
+      expect(result.gradientResistance, 0.0);
+      expect(result.overallResistance, 0.0);
     });
   });
 }

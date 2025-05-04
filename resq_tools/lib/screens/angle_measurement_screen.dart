@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:resq_tools/utils/extensions.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:flutter/services.dart';
 
@@ -45,6 +46,7 @@ class _AngleMeasurementScreenState extends State<AngleMeasurementScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final waterColor = Theme.of(context).colorScheme.secondary;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -57,7 +59,7 @@ class _AngleMeasurementScreenState extends State<AngleMeasurementScreen> {
           children: [
             CustomPaint(
               size: size,
-              painter: _LevelPainter(_angle),
+              painter: _LevelPainter(_angle, waterColor),
             ),
             Positioned(
               top: 40,
@@ -74,6 +76,21 @@ class _AngleMeasurementScreenState extends State<AngleMeasurementScreen> {
                 ),
               ),
             ),
+            Positioned(
+              bottom: 40,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Text(
+                  context.l10n?.angle_measurement_exit
+                      ?? 'Tap to exit',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -83,11 +100,12 @@ class _AngleMeasurementScreenState extends State<AngleMeasurementScreen> {
 
 class _LevelPainter extends CustomPainter {
   final double angle;
-  _LevelPainter(this.angle);
+  final Color waterColor;
+  _LevelPainter(this.angle, this.waterColor);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paintWater = Paint()..color = Colors.blueAccent;
+    final paintWater = Paint()..color = waterColor;
     final paintLine = Paint()
       ..color = Colors.white
       ..strokeWidth = 4.0
