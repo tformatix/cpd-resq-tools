@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_document.dart';
 import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_result.dart';
 import 'package:resq_tools/models/rescue_sheet/licence_plate/licence_plate_result.dart';
 import 'package:resq_tools/repositories/rescue_sheet/euro_rescue_repository.dart';
@@ -50,5 +52,25 @@ class RescueSheetCubit extends Cubit<RescueSheetState> {
     emit(
       state.copyWith(licencePlateResult: licencePlateResult, isLoading: false),
     );
+  }
+
+  Uri? getLocalizedDocumentUri(
+      String deviceLanguageCode,
+      List<EuroRescueResultDocument> documents,
+      ) {
+    if (documents.isEmpty) return null;
+
+    final languagePriority = [deviceLanguageCode.toLowerCase(), 'de', 'en'];
+    for (final language in languagePriority) {
+      final localizedDocument = documents.firstWhereOrNull(
+            (doc) => doc.language.toLowerCase() == language,
+      );
+
+      if (localizedDocument != null) {
+        return Uri.tryParse(localizedDocument.url);
+      }
+    }
+    // No localized document found, fall back to the first document
+    return Uri.tryParse(documents.first.url);
   }
 }

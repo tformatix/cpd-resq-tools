@@ -19,7 +19,7 @@ class EuroRescueCarWidget extends StatelessWidget {
       child: Card(
         child: ListTile(
           title: Text('${euroRescueCar.makeName} ${euroRescueCar.modelName}'),
-          trailing: Icon(Icons.arrow_forward_ios),
+          trailing: Icon(Icons.open_in_browser),
           leading: SizedBox(
             width: 100,
             height: 50,
