@@ -4,4 +4,13 @@ class EuroRescueResult {
   final List<EuroRescueCar> cars;
 
   const EuroRescueResult({required this.cars});
+
+  factory EuroRescueResult.fromJson(Map<String, dynamic> json) {
+    return EuroRescueResult(
+      cars:
+          (json['Documents'] as List)
+              .map((car) => EuroRescueCar.fromJson(car))
+              .toList(),
+    );
+  }
 }

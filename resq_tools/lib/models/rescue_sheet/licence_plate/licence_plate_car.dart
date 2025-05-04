@@ -2,7 +2,7 @@ import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_result.da
 import 'package:resq_tools/models/rescue_sheet/licence_plate/powertrain.dart';
 
 class LicencePlateCar {
-  final Powertrain? powertrain;
+  final Powertrain powertrain;
   final String? make;
   final String? model;
   final String? type;
@@ -26,8 +26,4 @@ class LicencePlateCar {
     required this.version,
     this.euroRescueResult,
   });
-
-  void setEuroRescueResult(EuroRescueResult euroRescueResult) {
-    this.euroRescueResult = euroRescueResult;
-  }
 }

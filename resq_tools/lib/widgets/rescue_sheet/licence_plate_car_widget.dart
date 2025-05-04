@@ -35,7 +35,7 @@ class LicencePlateCarWidget extends StatelessWidget {
                   ).format(licencePlateResultCar.initialRegistrationDate!),
                 ),
               Text(
-                licencePlateResultCar.powertrain?.toLocalizedString(context) ??
+                licencePlateResultCar.powertrain.toLocalizedString(context) ??
                     '',
               ),
               Text('${licencePlateResultCar.maxTotalWeight} kg'),

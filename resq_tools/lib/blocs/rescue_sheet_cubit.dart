@@ -46,14 +46,7 @@ class RescueSheetCubit extends Cubit<RescueSheetState> {
       licencePlateNumber,
     );
 
-    if (licencePlateResult == null) {
-      emit(state.copyWith(isLoading: false));
-      return;
-    }
-
-    licencePlateResult = await euroRescueRepository.fetchEuroRescue(
-      licencePlateResult,
-    );
+    await euroRescueRepository.fetchEuroRescue(licencePlateResult);
     emit(
       state.copyWith(licencePlateResult: licencePlateResult, isLoading: false),
     );

@@ -10,7 +10,7 @@ class LicencePlateRepository {
   static const _authorityKey = 'plate_pref';
   static const _numberKey = 'plate_number';
 
-  Future<LicencePlateResult?> fetchLicencePlate(
+  Future<LicencePlateResult> fetchLicencePlate(
     String authority,
     String number,
   ) async {
@@ -39,7 +39,7 @@ class LicencePlateRepository {
 
       return LicencePlateResult.fromHtml(searchResponse.body);
     } on Exception catch (_) {
-      return null;
+      return LicencePlateResult(cars: []);
     } finally {
       client.close();
     }
