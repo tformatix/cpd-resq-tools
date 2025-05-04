@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/resistance_cubit.dart';
 import 'package:resq_tools/models/resistance/measurement_config.dart';
 import 'package:resq_tools/models/resistance/resistance_result.dart';
 import 'package:resq_tools/models/resistance/underground_type.dart';
 import 'package:resq_tools/models/resistance/vehicle_type.dart';
-import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/screens/angle_measurement_screen.dart';
+import 'package:resq_tools/utils/extensions.dart';
 
 class ResistanceScreen extends StatefulWidget {
   const ResistanceScreen({super.key});
@@ -19,13 +20,8 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
   MeasurementConfig _measurementConfig = MeasurementConfig.empty();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _angleController = TextEditingController();
-
-  @override
-  void initState() {
-    _weightController.text = _measurementConfig.weight.toString();
-    _angleController.text = _measurementConfig.angle?.toStringAsFixed(1) ?? '';
-    super.initState();
-  }
+  final fontSizeResistance = 16.0;
+  final fontSizeOverallResistance = 20.0;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -46,7 +42,6 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           DropdownMenu<VehicleType>(
             width: double.infinity,
@@ -56,6 +51,12 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                 _measurementConfig = _measurementConfig.copyWith(
                   vehicleType: value,
                 );
+                if (value?.weight != null) {
+                  _weightController.text = value!.weight.toString();
+                  _measurementConfig = _measurementConfig.copyWith(
+                    weight: value.weight,
+                  );
+                }
               });
               _updateMeasurementConfig(context);
             },
@@ -73,6 +74,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
           TextField(
             controller: _weightController,
             keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: context.l10n?.resistance_weight,
@@ -94,14 +96,13 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
             readOnly: true,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              labelText: context.l10n?.resistance_angle_label
-                  ?? 'Neigungswinkel (°)',
+              labelText:
+                  context.l10n?.resistance_angle_label ?? 'Neigungswinkel (°)',
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: IconButton(
                 icon: const Icon(Icons.straighten),
                 onPressed: () async {
                   final navigator = Navigator.of(context);
-                  final cubit = context.read<ResistanceCubit>();
 
                   final result = await navigator.push<double>(
                     MaterialPageRoute(
@@ -109,14 +110,14 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                     ),
                   );
 
-                  if (result != null) {
+                  if (result != null && mounted) {
                     setState(() {
                       _angleController.text = result.toStringAsFixed(1);
                       _measurementConfig = _measurementConfig.copyWith(
                         angle: result,
                       );
+                      _updateMeasurementConfig(context);
                     });
-                    cubit.updateMeasurementConfig(_measurementConfig);
                   }
                 },
               ),
@@ -146,13 +147,6 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                     .toList(),
           ),
           const SizedBox(height: 16),
-          FilledButton(
-            onPressed: () {
-              context.read<ResistanceCubit>().resistanceCalculation();
-            },
-            child: Text(context.l10n?.resistance_start_calculation ?? ''),
-          ),
-          const SizedBox(height: 16),
           if (state.resistanceResult != null)
             _showResistanceResult(context, state.resistanceResult),
         ],
@@ -164,27 +158,33 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
     BuildContext context,
     ResistanceResult? resistanceResult,
   ) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      Text('${context.l10n?.resistance_angle}: ${resistanceResult?.angle}'),
-
       Text(
         '${context.l10n?.resistance_rolling_resistance}: '
-        '${resistanceResult?.rollingResistance}',
+        '${resistanceResult?.rollingResistance.toStringAsFixed(2)} kN',
+        style: TextStyle(fontSize: fontSizeResistance),
       ),
       Text(
         '${context.l10n?.resistance_gradient_resistance}: '
-        '${resistanceResult?.gradientResistance}',
+        '${resistanceResult?.gradientResistance.toStringAsFixed(2)} kN',
+        style: TextStyle(fontSize: fontSizeResistance),
       ),
+      const Divider(),
       Text(
         '${context.l10n?.resistance_overall_resistance}: '
-        '${resistanceResult?.overallResistance}',
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        '${resistanceResult?.overallResistance.toStringAsFixed(2)} kN',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: fontSizeOverallResistance,
+        ),
       ),
     ],
   );
 
   void _updateMeasurementConfig(BuildContext context) {
     context.read<ResistanceCubit>().updateMeasurementConfig(_measurementConfig);
+    context.read<ResistanceCubit>().resistanceCalculation();
   }
 
   @override
@@ -193,7 +193,19 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
     final config = context.read<ResistanceCubit>().state.measurementConfig;
     if (config != null) {
       _measurementConfig = config;
-      _weightController.text = config.weight.toString();
+
+      _weightController.text = config.vehicleType.weight.toString();
+      _angleController.text = config.angle?.toStringAsFixed(1) ?? '';
+
+      final cubit = context.read<ResistanceCubit>();
+      if (cubit.state.resistanceResult == null) {
+        _measurementConfig = _measurementConfig.copyWith(
+          weight: config.vehicleType.weight,
+          angle: config.angle,
+        );
+        _updateMeasurementConfig(context);
+        cubit.resistanceCalculation();
+      }
     }
   }
 
