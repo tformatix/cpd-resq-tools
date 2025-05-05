@@ -8,6 +8,7 @@ import 'package:resq_tools/models/resistance/underground_type.dart';
 import 'package:resq_tools/models/resistance/vehicle_type.dart';
 import 'package:resq_tools/screens/angle_measurement_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
+import 'package:resq_tools/utils/three_digits_one_decimal_text_input_formatter.dart';
 
 class ResistanceScreen extends StatefulWidget {
   const ResistanceScreen({super.key});
@@ -71,6 +72,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                     .toList(),
           ),
           const SizedBox(height: 12),
+
           TextField(
             controller: _weightController,
             keyboardType: TextInputType.number,
@@ -91,9 +93,11 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
             },
           ),
           const SizedBox(height: 12),
+
           TextField(
             controller: _angleController,
-            readOnly: true,
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [ThreeDigitOneDecimalFormatter()],
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText:
@@ -122,8 +126,18 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                 },
               ),
             ),
+            onChanged: (value) {
+              setState(() {
+                _angleController.text = value;
+                _measurementConfig = _measurementConfig.copyWith(
+                  angle: double.tryParse(value)?.abs(),
+                );
+              });
+              _updateMeasurementConfig(context);
+            },
           ),
           const SizedBox(height: 12),
+
           DropdownMenu<UndergroundType>(
             width: double.infinity,
             initialSelection: _measurementConfig.undergroundType,
@@ -147,6 +161,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                     .toList(),
           ),
           const SizedBox(height: 16),
+
           if (state.resistanceResult != null)
             _showResistanceResult(context, state.resistanceResult),
         ],
