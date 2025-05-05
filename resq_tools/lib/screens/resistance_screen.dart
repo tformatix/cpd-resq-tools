@@ -160,26 +160,52 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
   ) => Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      Text(
-        '${context.l10n?.resistance_rolling_resistance}: '
+      _buildResultRow(
+        context.l10n?.resistance_rolling_resistance ?? 'Rolling Resistance',
         '${resistanceResult?.rollingResistance.toStringAsFixed(2)} kN',
-        style: TextStyle(fontSize: fontSizeResistance),
+        fontSizeResistance,
       ),
-      Text(
-        '${context.l10n?.resistance_gradient_resistance}: '
+      _buildResultRow(
+        context.l10n?.resistance_gradient_resistance ?? 'Gradient Resistance',
         '${resistanceResult?.gradientResistance.toStringAsFixed(2)} kN',
-        style: TextStyle(fontSize: fontSizeResistance),
+        fontSizeResistance,
       ),
       const Divider(),
-      Text(
-        '${context.l10n?.resistance_overall_resistance}: '
+      _buildResultRow(
+        context.l10n?.resistance_overall_resistance ?? 'Overall Resistance',
         '${resistanceResult?.overallResistance.toStringAsFixed(2)} kN',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: fontSizeOverallResistance,
-        ),
+        fontSizeOverallResistance,
+        isBold: true,
       ),
     ],
+  );
+
+  Widget _buildResultRow(
+    String label,
+    String value,
+    double fontSize, {
+    bool isBold = false,
+  }) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          '$label:',
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ],
+    ),
   );
 
   void _updateMeasurementConfig(BuildContext context) {
