@@ -8,7 +8,6 @@ import 'package:resq_tools/models/resistance/underground_type.dart';
 import 'package:resq_tools/models/resistance/vehicle_type.dart';
 import 'package:resq_tools/screens/angle_measurement_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
-import 'package:resq_tools/utils/three_digits_one_decimal_text_input_formatter.dart';
 
 class ResistanceScreen extends StatefulWidget {
   const ResistanceScreen({super.key});
@@ -97,7 +96,6 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
           TextField(
             controller: _angleController,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [ThreeDigitOneDecimalFormatter()],
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText:
@@ -122,6 +120,10 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                       );
                       _updateMeasurementConfig(context);
                     });
+
+                    // remove focus from text field to not show keyboard after
+                    // completed angle measurement
+                    FocusManager.instance.primaryFocus?.unfocus();
                   }
                 },
               ),
