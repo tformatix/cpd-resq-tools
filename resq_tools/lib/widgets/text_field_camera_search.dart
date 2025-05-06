@@ -10,6 +10,7 @@ class TextFieldCameraSearch extends StatefulWidget {
   final String? errorText;
   final Function(String) onSearchClicked;
   final CameraOcrType ocrType;
+  final TextInputType? keyboardType;
   final bool isLoading;
   final List<TextInputFormatter>? inputFormatters;
 
@@ -22,6 +23,7 @@ class TextFieldCameraSearch extends StatefulWidget {
     required this.ocrType,
     required this.isLoading,
     this.inputFormatters,
+    this.keyboardType
   });
 
   @override
@@ -50,7 +52,7 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
             Expanded(
               child: TextField(
                 controller: _textEditingController,
-                keyboardType: TextInputType.number,
+                keyboardType: widget.keyboardType,
                 inputFormatters: widget.inputFormatters,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
