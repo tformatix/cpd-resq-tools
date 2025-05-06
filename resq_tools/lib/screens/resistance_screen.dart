@@ -132,7 +132,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
               setState(() {
                 _angleController.text = value;
                 _measurementConfig = _measurementConfig.copyWith(
-                  angle: double.tryParse(value)?.abs(),
+                  angle: double.tryParse(value),
                 );
               });
               _updateMeasurementConfig(context);
