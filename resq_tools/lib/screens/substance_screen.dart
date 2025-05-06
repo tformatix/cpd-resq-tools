@@ -38,6 +38,7 @@ class SubstanceScreen extends StatelessWidget {
                 LengthLimitingTextInputFormatter(4),
                 FilteringTextInputFormatter.digitsOnly,
               ],
+              keyboardType: TextInputType.number,
               ocrType: CameraOcrType.substance,
               onSearchClicked:
                   (String unNumber) =>
