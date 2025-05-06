@@ -7,6 +7,7 @@
   "blattler_title": "Blattler",
 
   "rescue_sheet_textfield_label": "Kennzeichen (SD-123AB)",
+  "rescue_sheet_textfield_error_invalid": "Ungültiges Kennzeichen",
   "rescue_sheet_licence_plate_result": "Kennzeichenabfrage",
   "rescue_sheet_empty_licence_plate_result": "Kennzeichen nicht gefunden",
   "rescue_sheet_euro_rescue_result": "Rettungskarten",
