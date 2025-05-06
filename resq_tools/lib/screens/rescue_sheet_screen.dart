@@ -18,6 +18,7 @@ class RescueSheetScreen extends StatefulWidget {
 class _RescueSheetScreenState extends State<RescueSheetScreen> {
   static const licencePlateDelimiter = '-';
   int selectedLicencePlateCarIdx = 0;
+  String? licencePlateErrorText;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -37,11 +38,25 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
           TextFieldCameraSearch(
             initialText: 'FW-KFZ1',
             labelText: context.l10n?.rescue_sheet_textfield_label,
+            errorText: licencePlateErrorText,
             isLoading: state.isLoading,
             onSearchClicked: (String licencePlate) {
               final splitLicencePlate = licencePlate.split(
                 licencePlateDelimiter,
               );
+
+              if (splitLicencePlate.length != 2) {
+                setState(() {
+                  licencePlateErrorText =
+                      context.l10n?.rescue_sheet_textfield_error_invalid;
+                });
+                return;
+              }
+
+              setState(() {
+                licencePlateErrorText = null;
+              });
+
               context.read<RescueSheetCubit>().fetchRescueSheet(
                 splitLicencePlate[0],
                 splitLicencePlate[1],

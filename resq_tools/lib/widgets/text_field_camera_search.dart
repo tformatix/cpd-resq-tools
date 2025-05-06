@@ -7,6 +7,7 @@ import 'package:resq_tools/utils/extensions.dart';
 class TextFieldCameraSearch extends StatefulWidget {
   final String? initialText;
   final String? labelText;
+  final String? errorText;
   final Function(String) onSearchClicked;
   final CameraOcrType ocrType;
   final bool isLoading;
@@ -16,6 +17,7 @@ class TextFieldCameraSearch extends StatefulWidget {
     super.key,
     this.initialText,
     required this.labelText,
+    this.errorText,
     required this.onSearchClicked,
     required this.ocrType,
     required this.isLoading,
@@ -53,6 +55,7 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   labelText: widget.labelText,
+                  errorText: widget.errorText,
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.camera_alt),
                     onPressed: () async {
