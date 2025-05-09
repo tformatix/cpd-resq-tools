@@ -71,6 +71,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                     .toList(),
           ),
           const SizedBox(height: 12),
+
           TextField(
             controller: _weightController,
             keyboardType: TextInputType.number,
@@ -91,9 +92,10 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
             },
           ),
           const SizedBox(height: 12),
+
           TextField(
             controller: _angleController,
-            readOnly: true,
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText:
@@ -118,12 +120,26 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                       );
                       _updateMeasurementConfig(context);
                     });
+
+                    // remove focus from text field to not show keyboard after
+                    // completed angle measurement
+                    FocusManager.instance.primaryFocus?.unfocus();
                   }
                 },
               ),
             ),
+            onChanged: (value) {
+              setState(() {
+                _angleController.text = value;
+                _measurementConfig = _measurementConfig.copyWith(
+                  angle: double.tryParse(value),
+                );
+              });
+              _updateMeasurementConfig(context);
+            },
           ),
           const SizedBox(height: 12),
+
           DropdownMenu<UndergroundType>(
             width: double.infinity,
             initialSelection: _measurementConfig.undergroundType,
@@ -147,6 +163,7 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                     .toList(),
           ),
           const SizedBox(height: 16),
+
           if (state.resistanceResult != null)
             _showResistanceResult(context, state.resistanceResult),
         ],

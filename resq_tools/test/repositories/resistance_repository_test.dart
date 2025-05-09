@@ -17,7 +17,7 @@ void main() {
           vehicleType: VehicleType.car,
           weight: 1000,
           undergroundType: UndergroundType.asphalt,
-          angle: 30 * pi / 180,
+          angle: 30,
         );
 
         // Act
@@ -26,7 +26,8 @@ void main() {
         // Assert
         final expectedRolling =
             config.weight * config.undergroundType.rollingResistanceCoefficient;
-        final expectedGradient = config.weight * sin(config.angle!);
+        final expectedGradient =
+            config.weight * sin(config.angle! * (pi / 180.0));
         final expectedTotal = expectedRolling + expectedGradient;
 
         expect(result, isNotNull);
