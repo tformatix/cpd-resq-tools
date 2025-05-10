@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
-import 'package:resq_tools/screens/camera_screen.dart';
+import 'package:resq_tools/screens/text_recognizer_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 class TextFieldCameraSearch extends StatefulWidget {
@@ -23,7 +23,7 @@ class TextFieldCameraSearch extends StatefulWidget {
     required this.ocrType,
     required this.isLoading,
     this.inputFormatters,
-    this.keyboardType
+    this.keyboardType,
   });
 
   @override
@@ -65,7 +65,9 @@ class _TextFieldCameraSearchState extends State<TextFieldCameraSearch> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return CameraScreen(ocrType: widget.ocrType);
+                            return TextRecognizerScreen(
+                              ocrType: widget.ocrType,
+                            );
                           },
                         ),
                       );
