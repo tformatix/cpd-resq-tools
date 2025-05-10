@@ -15,10 +15,13 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
 
   final PdfViewerController _pdfViewerController = PdfViewerController();
   final TextEditingController _searchController = TextEditingController();
+  late PdfTextSearchResult _searchResult;
 
   @override
   void initState() {
     super.initState();
+    _searchResult = PdfTextSearchResult();
+    _searchResult.addListener(_onSearchResultChanged);
   }
 
   @override
@@ -32,7 +35,29 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
             onPressed: () {
               _openSearchDialog(context);
             },
-          )
+          ),
+          if (_searchResult.hasResult) ...[
+            IconButton(
+              icon: const Icon(Icons.navigate_before),
+              onPressed: _searchResult.hasResult
+                  ? () => _searchResult.previousInstance()
+                  : null,
+            ),
+            IconButton(
+              icon: const Icon(Icons.navigate_next),
+              onPressed: _searchResult.hasResult
+                  ? () => _searchResult.nextInstance()
+                  : null,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Center(
+                child: Text(
+                  '${_searchResult.currentInstanceIndex + 1} / ${_searchResult.totalInstanceCount}',
+                ),
+              ),
+            ),
+          ],
         ],
       ),
       body: BlocBuilder<BlattlerCubit, BlattlerState>(
@@ -49,6 +74,27 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchResult.removeListener(_onSearchResultChanged);
+    super.dispose();
+  }
+
+  void _onSearchResultChanged() {
+    setState(() {});
+  }
+
+  void _performSearch(String query) {
+    _searchResult = _pdfViewerController.searchText(query);
+    _searchResult.addListener(_onSearchResultChanged);
+  }
+
+  void _startSearchAndClose(BuildContext dialogContext) {
+    Navigator.of(dialogContext).pop();
+    _performSearch(_searchController.text);
+  }
+
   void _openSearchDialog(BuildContext context) {
     showDialog<void>(
       context: context,
@@ -59,7 +105,8 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
             controller: _searchController,
             decoration: InputDecoration(
               hintText: context.l10n?.blattler_search_words ?? 'Search',
-            ),          
+            ),
+            onSubmitted: (_) => _startSearchAndClose(dialogContext),
           ),
           actions: <Widget>[
             TextButton(
@@ -70,10 +117,7 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
             ),
             TextButton(
               child: Text(context.l10n?.blattler_search ?? 'Search'),
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-                _pdfViewerController.searchText(_searchController.text);
-              },
+              onPressed: () => _startSearchAndClose(dialogContext),
             ),
           ],
         );
