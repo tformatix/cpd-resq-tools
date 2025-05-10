@@ -47,5 +47,9 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSCameraUsageDescription</key>
+        <string>Text recognition for licence plates and danger signs</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>Text recognition for licence plates and danger signs</string>
 	</dict>
 </plist>
