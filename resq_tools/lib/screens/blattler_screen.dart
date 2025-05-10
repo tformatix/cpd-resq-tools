@@ -16,6 +16,8 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
   final PdfViewerController _pdfViewerController = PdfViewerController();
   final TextEditingController _searchController = TextEditingController();
   late PdfTextSearchResult _searchResult;
+  bool _isSearching = false;
+  bool _didWarmUp = false;
 
   @override
   void initState() {
@@ -59,15 +61,30 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
             ),
           ],
         ],
+        bottom: _isSearching
+            ? const PreferredSize(
+          preferredSize: Size.fromHeight(4),
+          child: LinearProgressIndicator(),
+        )
+            : null,
       ),
       body: BlocBuilder<BlattlerCubit, BlattlerState>(
         builder: (context, state) {
           if (state.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          return SfPdfViewer.asset(
-            'assets/blattler.pdf',
-            controller: _pdfViewerController,
+          return Stack(
+            children: [
+              SfPdfViewer.asset(
+                'assets/blattler.pdf',
+                controller: _pdfViewerController,
+                onDocumentLoaded: _onDocumentLoaded,
+              ),
+              if (_isSearching)
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+            ],
           );
         },
       ),
@@ -82,19 +99,30 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
   }
 
   void _onSearchResultChanged() {
-    setState(() {});
+    setState(() {
+      _isSearching = false;
+    });
   }
 
   void _performSearch(String query) {
+    setState(() {
+      _isSearching = true;
+    });
     _searchResult = _pdfViewerController.searchText(query);
     _searchResult.addListener(_onSearchResultChanged);
   }
 
   void _startSearchAndClose(BuildContext dialogContext) {
     Navigator.of(dialogContext).pop();
-    _performSearch(_searchController.text);
+    _performSearch(_searchController.text.trim());
   }
 
+  void _onDocumentLoaded(PdfDocumentLoadedDetails details) {
+    if (!_didWarmUp) {
+      _didWarmUp = true;
+      _pdfViewerController.searchText('___dummyString123456789___');
+    }
+  }
   void _openSearchDialog(BuildContext context) {
     showDialog<void>(
       context: context,
