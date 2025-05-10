@@ -4,7 +4,6 @@ class ResQToolsTheme {
   static final ThemeData lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.red,
-      brightness: Brightness.light,
     ),
     useMaterial3: true,
   );
