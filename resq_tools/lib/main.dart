@@ -18,6 +18,7 @@ import 'package:resq_tools/screens/blattler_screen.dart';
 import 'package:resq_tools/screens/rescue_sheet_screen.dart';
 import 'package:resq_tools/screens/resistance_screen.dart';
 import 'package:resq_tools/screens/substance_screen.dart';
+import 'package:resq_tools/theme/resq_tools_theme.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 void main() {
@@ -61,9 +62,8 @@ class ResQToolsApp extends StatelessWidget {
         title: 'ResQTools',
         localizationsDelegates: localizationsDelegates,
         supportedLocales: L10n.all,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        ),
+        theme: ResQToolsTheme.lightTheme,
+        darkTheme: ResQToolsTheme.darkTheme,
         home: const ResQToolsHomePage(),
       ),
     );
