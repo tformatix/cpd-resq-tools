@@ -14,6 +14,7 @@
   "rescue_sheet_empty_euro_rescue_result": "Keine Rettungskarten gefunden",
   "rescue_sheet_doors": "Türen",
   "rescue_sheet_no_rescue_card_found_for_car": "Keine Rettungskarte für dieses Auto verfügbar!",
+  "rescue_sheet_no_app_token_found": "Kein App Token gefunden. Bitte geben Sie einen gültigen App Token in den Einstellungen ein.",
 
   "powertrain_cng": "Erdgas (CNG)",
   "powertrain_diesel": "Diesel",
@@ -83,6 +84,14 @@
   "camera_image_source_camera": "Kamera",
   "camera_result_nothing_found": "Nichts gefunden",
   "camera_dialog_close": "Schließen",
+
   "resistance_angle_label": "Winkel berechnen",
-  "angle_measurement_exit": "Berühren zum Beenden"
+  "angle_measurement_exit": "Berühren zum Beenden",
+
+  "onboarding_app_token_description": "Um auf die Kennzeichenabfrage zuzugreifen, benötigen Sie einen gültigen Feuerwehr App Token (https://feuerwehrapp.at).",
+  "onboarding_app_token_label": "Feuerwehr App Token",
+  "onboarding_app_token_hint": "Geben Sie hier Ihren Token ein",
+  "onboarding_set_token": "Token speichern",
+  "onboarding_set_token_later": "Später",
+  "onboarding_demo_system": "Demosystem"
 }
