@@ -77,12 +77,7 @@
 
   "camera_title_license_plate": "Licence plate",
   "camera_title_un_number": "UN-Number",
-  "camera_take_or_choose_photo": "Take or choose photo",
-  "camera_choose_image_source": "Choose image source",
-  "camera_choose_image_source_description": "Would you like to take a photo or select one from the gallery?",
-  "camera_image_source_gallery": "Gallery",
-  "camera_image_source_camera": "Camera",
-  "camera_result_nothing_found": "Nothing found",
+  "camera_result_empty": "Nothing found yet ...",
   "camera_dialog_close": "Close",
 
   "resistance_angle_label": "Calculate angle",

@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:resq_tools/blocs/blattler_cubit.dart';
-import 'package:resq_tools/blocs/camera_cubit.dart';
 import 'package:resq_tools/blocs/onboarding_cubit.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
 import 'package:resq_tools/blocs/resistance_cubit.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
 import 'package:resq_tools/l10n/l10n.dart';
 import 'package:resq_tools/repositories/blattler_repository.dart';
-import 'package:resq_tools/repositories/camera_repository.dart';
 import 'package:resq_tools/repositories/rescue_sheet/euro_rescue_repository.dart';
 import 'package:resq_tools/repositories/rescue_sheet/licence_plate_repository.dart';
 import 'package:resq_tools/repositories/resistance_repository.dart';
@@ -38,7 +36,6 @@ class ResQToolsApp extends StatelessWidget {
     final resistanceRepository = ResistanceRepository();
     final substanceRepository = SubstanceRepository();
     final blattlerRepository = BlattlerRepository();
-    final cameraRepository = CameraRepository();
     final storageRepository = StorageRepository();
 
     const localizationsDelegates = [
@@ -61,7 +58,6 @@ class ResQToolsApp extends StatelessWidget {
         BlocProvider(create: (_) => ResistanceCubit(resistanceRepository)),
         BlocProvider(create: (_) => SubstanceCubit(substanceRepository)),
         BlocProvider(create: (_) => BlattlerCubit(blattlerRepository)),
-        BlocProvider(create: (_) => CameraCubit(cameraRepository)),
         BlocProvider(create: (_) => OnboardingCubit(storageRepository)),
       ],
       child: MaterialApp(

@@ -52,7 +52,7 @@ packages:
   camera:
     dependency: "direct main"
     description:
-      name: camera
+      name: text_recognizer
       sha256: "413d2b34fe28496c35c69ede5b232fb9dd5ca2c3a4cb606b14efc1c7546cc8cb"
       url: "https://pub.dev"
     source: hosted
