@@ -148,6 +148,8 @@ class _CameraWidgetState extends State<CameraWidget> {
         _maxAvailableZoom = value;
       });
 
+      _controller?.setFlashMode(FlashMode.auto);
+
       _controller?.startImageStream(_processCameraImage).then((value) {
         if (widget.onCameraLensDirectionChanged != null) {
           widget.onCameraLensDirectionChanged!(camera.lensDirection);
