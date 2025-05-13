@@ -14,6 +14,7 @@
   "rescue_sheet_empty_euro_rescue_result": "No rescue cards found",
   "rescue_sheet_doors": "doors",
   "rescue_sheet_no_rescue_card_found_for_car": "No rescue card available for this car!",
+  "rescue_sheet_no_app_token_found": "No app token found. Please enter a valid app token in the settings.",
 
   "powertrain_cng": "CNG",
   "powertrain_diesel": "Diesel",
@@ -85,5 +86,12 @@
   "camera_dialog_close": "Close",
 
   "resistance_angle_label": "Calculate angle",
-  "angle_measurement_exit": "Tap to exit"
+  "angle_measurement_exit": "Tap to exit",
+
+  "onboarding_app_token_description": "To access the license plate search, you need a valid Feuerwehr App Token (https://feuerwehrapp.at).",
+  "onboarding_app_token_label": "Feuerwehr App Token",
+  "onboarding_app_token_hint": "Enter your token here",
+  "onboarding_set_token": "Set token",
+  "onboarding_set_token_later": "Later",
+  "onboarding_demo_system": "Demo system"
 }

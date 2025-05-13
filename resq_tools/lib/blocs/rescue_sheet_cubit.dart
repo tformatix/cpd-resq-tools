@@ -5,6 +5,7 @@ import 'package:resq_tools/models/rescue_sheet/euro_rescue/euro_rescue_result.da
 import 'package:resq_tools/models/rescue_sheet/licence_plate/licence_plate_result.dart';
 import 'package:resq_tools/repositories/rescue_sheet/euro_rescue_repository.dart';
 import 'package:resq_tools/repositories/rescue_sheet/licence_plate_repository.dart';
+import 'package:resq_tools/repositories/storage_repository.dart';
 
 class RescueSheetState {
   final bool isInitialState;
@@ -21,21 +22,23 @@ class RescueSheetState {
     bool? isLoading,
     LicencePlateResult? licencePlateResult,
     EuroRescueResult? euroRescueResult,
-  }) {
-    return RescueSheetState(
-      isInitialState: isInitialState,
-      isLoading: isLoading ?? this.isLoading,
-      licencePlateResult: licencePlateResult ?? this.licencePlateResult,
-    );
-  }
+  }) => RescueSheetState(
+    isInitialState: isInitialState,
+    isLoading: isLoading ?? this.isLoading,
+    licencePlateResult: licencePlateResult ?? this.licencePlateResult,
+  );
 }
 
 class RescueSheetCubit extends Cubit<RescueSheetState> {
   final LicencePlateRepository licencePlateRepository;
   final EuroRescueRepository euroRescueRepository;
+  final StorageRepository storageRepository;
 
-  RescueSheetCubit(this.licencePlateRepository, this.euroRescueRepository)
-    : super(const RescueSheetState(isInitialState: true));
+  RescueSheetCubit(
+    this.licencePlateRepository,
+    this.euroRescueRepository,
+    this.storageRepository,
+  ) : super(const RescueSheetState(isInitialState: true));
 
   void fetchRescueSheet(
     String licencePlateAuthority,
@@ -43,9 +46,14 @@ class RescueSheetCubit extends Cubit<RescueSheetState> {
   ) async {
     emit(RescueSheetState(isLoading: true));
 
+    final appToken = await storageRepository.getAppToken() ?? '';
+    final isDemoSystem = await storageRepository.getDemoSystem();
+
     var licencePlateResult = await licencePlateRepository.fetchLicencePlate(
       licencePlateAuthority,
       licencePlateNumber,
+      appToken,
+      isDemoSystem,
     );
 
     await euroRescueRepository.fetchEuroRescue(licencePlateResult);
@@ -55,15 +63,15 @@ class RescueSheetCubit extends Cubit<RescueSheetState> {
   }
 
   Uri? getLocalizedDocumentUri(
-      String deviceLanguageCode,
-      List<EuroRescueResultDocument> documents,
-      ) {
+    String deviceLanguageCode,
+    List<EuroRescueResultDocument> documents,
+  ) {
     if (documents.isEmpty) return null;
 
     final languagePriority = [deviceLanguageCode.toLowerCase(), 'de', 'en'];
     for (final language in languagePriority) {
       final localizedDocument = documents.firstWhereOrNull(
-            (doc) => doc.language.toLowerCase() == language,
+        (doc) => doc.language.toLowerCase() == language,
       );
 
       if (localizedDocument != null) {

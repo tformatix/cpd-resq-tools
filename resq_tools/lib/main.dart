@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:resq_tools/blocs/blattler_cubit.dart';
 import 'package:resq_tools/blocs/camera_cubit.dart';
+import 'package:resq_tools/blocs/onboarding_cubit.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
 import 'package:resq_tools/blocs/resistance_cubit.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
@@ -13,8 +14,10 @@ import 'package:resq_tools/repositories/camera_repository.dart';
 import 'package:resq_tools/repositories/rescue_sheet/euro_rescue_repository.dart';
 import 'package:resq_tools/repositories/rescue_sheet/licence_plate_repository.dart';
 import 'package:resq_tools/repositories/resistance_repository.dart';
+import 'package:resq_tools/repositories/storage_repository.dart';
 import 'package:resq_tools/repositories/substance_repository.dart';
 import 'package:resq_tools/screens/blattler_screen.dart';
+import 'package:resq_tools/screens/onboarding_screen.dart';
 import 'package:resq_tools/screens/rescue_sheet_screen.dart';
 import 'package:resq_tools/screens/resistance_screen.dart';
 import 'package:resq_tools/screens/substance_screen.dart';
@@ -36,6 +39,7 @@ class ResQToolsApp extends StatelessWidget {
     final substanceRepository = SubstanceRepository();
     final blattlerRepository = BlattlerRepository();
     final cameraRepository = CameraRepository();
+    final storageRepository = StorageRepository();
 
     const localizationsDelegates = [
       AppLocalizations.delegate,
@@ -51,12 +55,14 @@ class ResQToolsApp extends StatelessWidget {
               (_) => RescueSheetCubit(
                 licencePlateRepository,
                 euroRescueRepository,
+                storageRepository,
               ),
         ),
         BlocProvider(create: (_) => ResistanceCubit(resistanceRepository)),
         BlocProvider(create: (_) => SubstanceCubit(substanceRepository)),
         BlocProvider(create: (_) => BlattlerCubit(blattlerRepository)),
         BlocProvider(create: (_) => CameraCubit(cameraRepository)),
+        BlocProvider(create: (_) => OnboardingCubit(storageRepository)),
       ],
       child: MaterialApp(
         title: 'ResQTools',
@@ -64,7 +70,21 @@ class ResQToolsApp extends StatelessWidget {
         supportedLocales: L10n.all,
         theme: ResQToolsTheme.lightTheme,
         darkTheme: ResQToolsTheme.darkTheme,
-        home: const ResQToolsHomePage(),
+        home: FutureBuilder<String?>(
+          future: storageRepository.getAppToken(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            }
+
+            final token = snapshot.data;
+            return (token == null || token.isEmpty)
+                ? const OnboardingScreen()
+                : const ResQToolsHomePage();
+          },
+        ),
       ),
     );
   }

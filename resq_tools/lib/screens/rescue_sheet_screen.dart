@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
+import 'package:resq_tools/screens/onboarding_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/rescue_sheet/euro_rescue_car_widget.dart';
 import 'package:resq_tools/widgets/rescue_sheet/licence_plate_car_widget.dart';
@@ -22,7 +23,20 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(context.l10n?.rescue_sheet_title ?? '')),
+    appBar: AppBar(
+      title: Text(context.l10n?.rescue_sheet_title ?? ''),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.vpn_key),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+            );
+          },
+        ),
+      ],
+    ),
     body: BlocBuilder<RescueSheetCubit, RescueSheetState>(
       builder: (context, state) {
         return _getRescueSheetWidget(context, state);
@@ -32,7 +46,7 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
 
   Widget _getRescueSheetWidget(BuildContext context, RescueSheetState state) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
       child: ListView(
         children: [
           TextFieldCameraSearch(
