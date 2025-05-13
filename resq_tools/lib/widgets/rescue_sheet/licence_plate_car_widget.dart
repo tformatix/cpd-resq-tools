@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:resq_tools/models/rescue_sheet/licence_plate/licence_plate_car.dart';
+import 'package:resq_tools/screens/resistance_screen.dart';
 
 class LicencePlateCarWidget extends StatelessWidget {
   final LicencePlateCar licencePlateResultCar;
@@ -23,7 +24,22 @@ class LicencePlateCarWidget extends StatelessWidget {
           title: Text(
             '${licencePlateResultCar.make} ${licencePlateResultCar.model}',
           ),
-          trailing: Icon(Icons.arrow_forward_ios),
+          trailing: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => ResistanceScreen(
+                        inputWeight: kgToKilonewtons(
+                          licencePlateResultCar.maxTotalWeight,
+                        ),
+                      ),
+                ),
+              );
+            },
+            icon: Icon(Icons.calculate),
+          ),
           selected: selected,
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,4 +62,7 @@ class LicencePlateCarWidget extends StatelessWidget {
       ),
     );
   }
+
+  // mass * gravitational acceleration / 1000 (convert to kN)
+  int kgToKilonewtons(int? kg) => (((kg ?? 0) * 9.80665) / 1000).round();
 }
