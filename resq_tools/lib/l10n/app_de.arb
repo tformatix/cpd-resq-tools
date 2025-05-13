@@ -77,12 +77,7 @@
 
   "camera_title_license_plate": "Kennzeichen",
   "camera_title_un_number": "UN-Nummer",
-  "camera_take_or_choose_photo": "Foto machen oder auswählen",
-  "camera_choose_image_source": "Bildquelle auswählen",
-  "camera_choose_image_source_description": "Möchten Sie ein Foto machen oder eines aus der Galerie auswählen?",
-  "camera_image_source_gallery": "Galerie",
-  "camera_image_source_camera": "Kamera",
-  "camera_result_nothing_found": "Nichts gefunden",
+  "camera_result_empty": "Noch nichts gefunden ...",
   "camera_dialog_close": "Schließen",
 
   "resistance_angle_label": "Winkel berechnen",

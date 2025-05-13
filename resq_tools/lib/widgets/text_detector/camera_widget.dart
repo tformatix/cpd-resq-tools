@@ -6,16 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 
 class CameraWidget extends StatefulWidget {
-  final CustomPaint? customPaint;
-  final Function(InputImage inputImage) onImage;
+  final Function(InputImage inputImage)? onImage;
   final Function(CameraLensDirection direction)? onCameraLensDirectionChanged;
+  final Widget submitButton;
   final CameraLensDirection initialCameraLensDirection;
 
   const CameraWidget({
     super.key,
-    required this.customPaint,
     required this.onImage,
     this.onCameraLensDirectionChanged,
+    this.submitButton = const SizedBox(),
     this.initialCameraLensDirection = CameraLensDirection.back,
   });
 
@@ -63,22 +63,25 @@ class _CameraWidgetState extends State<CameraWidget> {
   @override
   Widget build(BuildContext context) {
     final isReady =
+        !_changingCameraLens &&
         _cameras.isNotEmpty &&
         _controller != null &&
         _controller?.value.isInitialized == true;
 
-    return Stack(
-      children: [
-        Center(
-          child:
-              _changingCameraLens || !isReady
-                  ? Center(child: CircularProgressIndicator())
-                  : CameraPreview(_controller!, child: widget.customPaint),
-        ),
-        _zoomControl(),
-        _switchLiveCameraToggle(),
-      ],
-    );
+    return isReady
+        ? Stack(
+          alignment: Alignment.center,
+          children: [
+            CameraPreview(_controller!),
+            _zoomControl(),
+            _switchLiveCameraToggle(),
+            _submitButton(),
+          ],
+        )
+        : const Padding(
+          padding: EdgeInsets.all(12),
+          child: CircularProgressIndicator(),
+        );
   }
 
   Widget _switchLiveCameraToggle() => Positioned(
@@ -118,6 +121,8 @@ class _CameraWidgetState extends State<CameraWidget> {
       ),
     ),
   );
+
+  Widget _submitButton() => Positioned(bottom: 16, child: widget.submitButton);
 
   Future _startLiveFeed() async {
     final camera = _cameras[_cameraIndex];
@@ -168,9 +173,11 @@ class _CameraWidgetState extends State<CameraWidget> {
   }
 
   void _processCameraImage(CameraImage image) {
-    final inputImage = _inputImageFromCameraImage(image);
-    if (inputImage == null) return;
-    widget.onImage(inputImage);
+    if (widget.onImage != null) {
+      final inputImage = _inputImageFromCameraImage(image);
+      if (inputImage == null) return;
+      widget.onImage!(inputImage);
+    }
   }
 
   final _orientations = {
