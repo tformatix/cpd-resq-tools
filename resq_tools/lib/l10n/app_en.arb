@@ -77,7 +77,7 @@
 
   "camera_title_license_plate": "Licence plate",
   "camera_title_un_number": "UN-Number",
-  "camera_result_empty": "Nothing found yet ...",
+  "camera_result_empty": "Searching ...",
   "camera_dialog_close": "Close",
 
   "resistance_angle_label": "Calculate angle",
