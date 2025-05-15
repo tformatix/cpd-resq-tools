@@ -10,7 +10,9 @@ import 'package:resq_tools/screens/angle_measurement_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 class ResistanceScreen extends StatefulWidget {
-  const ResistanceScreen({super.key});
+  final int? inputWeight;
+
+  const ResistanceScreen({super.key, this.inputWeight});
 
   @override
   State<ResistanceScreen> createState() => _ResistanceScreenState();
@@ -22,6 +24,21 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
   final TextEditingController _angleController = TextEditingController();
   final fontSizeResistance = 16.0;
   final fontSizeOverallResistance = 20.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.inputWeight != null) {
+      _measurementConfig = _measurementConfig.copyWith(
+        weight: widget.inputWeight,
+        vehicleType: VehicleType.custom,
+      );
+      _weightController.text = widget.inputWeight.toString();
+      _updateMeasurementConfig(context);
+      context.read<ResistanceCubit>().resistanceCalculation();
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -233,17 +250,20 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final config = context.read<ResistanceCubit>().state.measurementConfig;
+    final cubit = context.read<ResistanceCubit>();
+    final config = cubit.state.measurementConfig;
+
     if (config != null) {
       _measurementConfig = config;
 
-      _weightController.text = config.vehicleType.weight.toString();
+      final weightToUse = config.weight;
+      _weightController.text = weightToUse.toString();
+
       _angleController.text = config.angle?.toStringAsFixed(1) ?? '';
 
-      final cubit = context.read<ResistanceCubit>();
       if (cubit.state.resistanceResult == null) {
         _measurementConfig = _measurementConfig.copyWith(
-          weight: config.vehicleType.weight,
+          weight: weightToUse,
           angle: config.angle,
         );
         _updateMeasurementConfig(context);
