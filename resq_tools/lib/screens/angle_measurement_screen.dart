@@ -111,15 +111,15 @@ class _LevelPainter extends CustomPainter {
       ..strokeWidth = 4.0
       ..style = PaintingStyle.stroke;
 
-    canvas.save();
     canvas.translate(size.width / 2, size.height / 2);
-    canvas.rotate(angle * pi / 180);
+    canvas.save();
+    canvas.rotate((360-angle) * pi / 180);
 
     final fillRect = Rect.fromLTWH(
       -size.width,
       0,
       size.width * 2,
-      size.height,
+      size.height * 2,
     );
     canvas.drawRect(fillRect, paintWater);
 
