@@ -46,7 +46,7 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
 
   Widget _getRescueSheetWidget(BuildContext context, RescueSheetState state) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
       child: ListView(
         children: [
           TextFieldCameraSearch(
