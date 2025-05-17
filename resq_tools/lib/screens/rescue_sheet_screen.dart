@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
-import 'package:resq_tools/screens/onboarding_screen.dart';
+import 'package:resq_tools/screens/settings_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/rescue_sheet/euro_rescue_car_widget.dart';
 import 'package:resq_tools/widgets/rescue_sheet/licence_plate_car_widget.dart';
@@ -27,11 +27,11 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
       title: Text(context.l10n?.rescue_sheet_title ?? ''),
       actions: [
         IconButton(
-          icon: Icon(Icons.vpn_key),
+          icon: Icon(Icons.settings),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
             );
           },
         ),

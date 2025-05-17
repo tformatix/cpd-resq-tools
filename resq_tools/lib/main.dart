@@ -6,12 +6,14 @@ import 'package:resq_tools/blocs/blattler_cubit.dart';
 import 'package:resq_tools/blocs/onboarding_cubit.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
 import 'package:resq_tools/blocs/resistance_cubit.dart';
+import 'package:resq_tools/blocs/settings_cubit.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
 import 'package:resq_tools/l10n/l10n.dart';
 import 'package:resq_tools/repositories/blattler_repository.dart';
 import 'package:resq_tools/repositories/rescue_sheet/euro_rescue_repository.dart';
 import 'package:resq_tools/repositories/rescue_sheet/licence_plate_repository.dart';
 import 'package:resq_tools/repositories/resistance_repository.dart';
+import 'package:resq_tools/repositories/settings_repository.dart';
 import 'package:resq_tools/repositories/storage_repository.dart';
 import 'package:resq_tools/repositories/substance_repository.dart';
 import 'package:resq_tools/screens/blattler_screen.dart';
@@ -37,6 +39,7 @@ class ResQToolsApp extends StatelessWidget {
     final substanceRepository = SubstanceRepository();
     final blattlerRepository = BlattlerRepository();
     final storageRepository = StorageRepository();
+    final settingsRepository = SettingsRepository();
 
     const localizationsDelegates = [
       AppLocalizations.delegate,
@@ -59,28 +62,35 @@ class ResQToolsApp extends StatelessWidget {
         BlocProvider(create: (_) => SubstanceCubit(substanceRepository)),
         BlocProvider(create: (_) => BlattlerCubit(blattlerRepository)),
         BlocProvider(create: (_) => OnboardingCubit(storageRepository)),
+        BlocProvider(create: (_) => SettingsCubit(settingsRepository)),
       ],
-      child: MaterialApp(
-        title: 'ResQTools',
-        localizationsDelegates: localizationsDelegates,
-        supportedLocales: L10n.all,
-        theme: ResQToolsTheme.lightTheme,
-        darkTheme: ResQToolsTheme.darkTheme,
-        home: FutureBuilder<String?>(
-          future: storageRepository.getAppToken(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            }
+      child: BlocBuilder<SettingsCubit, SettingsState>(
+        buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'ResQTools',
+            localizationsDelegates: localizationsDelegates,
+            supportedLocales: L10n.all,
+            theme: ResQToolsTheme.lightTheme,
+            darkTheme: ResQToolsTheme.darkTheme,
+            themeMode: state.themeMode,
+            home: FutureBuilder<String?>(
+              future: storageRepository.getAppToken(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  );
+                }
 
-            final token = snapshot.data;
-            return (token == null || token.isEmpty)
-                ? const OnboardingScreen()
-                : const ResQToolsHomePage();
-          },
-        ),
+                final token = snapshot.data;
+                return (token == null || token.isEmpty)
+                    ? const OnboardingScreen()
+                    : const ResQToolsHomePage();
+              },
+            ),
+          );
+        },
       ),
     );
   }

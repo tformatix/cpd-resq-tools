@@ -5,6 +5,7 @@
   "resistance_title": "Resistance",
   "substance_title": "Substance",
   "blattler_title": "Blattler",
+  "settings_title": "Settings",
 
   "rescue_sheet_textfield_label": "Licence plate (SD-123AB)",
   "rescue_sheet_textfield_error_invalid": "Invalid licence plate",
@@ -88,5 +89,12 @@
   "onboarding_app_token_hint": "Enter your token here",
   "onboarding_set_token": "Set token",
   "onboarding_set_token_later": "Later",
-  "onboarding_demo_system": "Demo system"
+  "onboarding_demo_system": "Demo system",
+
+  "settings_item_change_token": "Change Token",
+  "settings_item_change_token_subtitle": "Feuerwehr App Token",
+  "settings_item_theme": "Appearance",
+  "settings_item_theme_system_default": "System default",
+  "settings_item_theme_light": "Light",
+  "settings_item_theme_dark": "Dark"
 }

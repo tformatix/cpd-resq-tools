@@ -5,6 +5,7 @@
   "resistance_title": "Widerstand",
   "substance_title": "Gefahrgut",
   "blattler_title": "Blattler",
+  "settings_title": "Einstellungen",
 
   "rescue_sheet_textfield_label": "Kennzeichen (SD-123AB)",
   "rescue_sheet_textfield_error_invalid": "Ungültiges Kennzeichen",
@@ -88,5 +89,12 @@
   "onboarding_app_token_hint": "Geben Sie hier Ihren Token ein",
   "onboarding_set_token": "Token speichern",
   "onboarding_set_token_later": "Später",
-  "onboarding_demo_system": "Demosystem"
+  "onboarding_demo_system": "Demosystem",
+
+  "settings_item_change_token": "Token ändern",
+  "settings_item_change_token_subtitle": "Feuerwehr App Token",
+  "settings_item_theme": "Darstellung",
+  "settings_item_theme_system_default": "Systemstandard",
+  "settings_item_theme_light": "Hell",
+  "settings_item_theme_dark": "Dunkel"
 }
