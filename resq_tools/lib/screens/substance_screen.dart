@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/substance_cubit.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
 import 'package:resq_tools/models/substance/substance_result.dart';
+import 'package:resq_tools/screens/settings_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/substance/substance_result_widget.dart';
 import 'package:resq_tools/widgets/text_field_camera_search.dart';
@@ -15,7 +16,20 @@ class SubstanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('${context.l10n?.substance_title}')),
+      appBar: AppBar(
+        title: Text('${context.l10n?.substance_title}'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
+            },
+          ),
+        ],
+      ),
       body: BlocBuilder<SubstanceCubit, SubstanceState>(
         builder: (context, state) {
           return _getSubstanceWidget(context, state);
