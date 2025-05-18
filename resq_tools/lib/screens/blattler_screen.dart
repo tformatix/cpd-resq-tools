@@ -18,6 +18,7 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
   late PdfTextSearchResult _searchResult;
   bool _isSearching = false;
   bool _didWarmUp = false;
+  String _currentQuery = '';
 
   @override
   void initState() {
@@ -30,8 +31,24 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n?.blattler_title ?? 'Blattler'),
-        actions: [
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(context.l10n?.blattler_title ?? 'Blattler'),
+            if (_currentQuery.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                '${context.l10n?.blattler_search_phrase ?? 'Suche'}'
+                    ': $_currentQuery',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ),
+                ),
+              ),
+          ],
+        ),        actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
@@ -107,6 +124,7 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
   void _performSearch(String query) {
     setState(() {
       _isSearching = true;
+      _currentQuery = query;
     });
     _searchResult = _pdfViewerController.searchText(query);
     _searchResult.addListener(_onSearchResultChanged);
