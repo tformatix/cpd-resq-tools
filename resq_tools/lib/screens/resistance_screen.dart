@@ -7,6 +7,7 @@ import 'package:resq_tools/models/resistance/resistance_result.dart';
 import 'package:resq_tools/models/resistance/underground_type.dart';
 import 'package:resq_tools/models/resistance/vehicle_type.dart';
 import 'package:resq_tools/screens/angle_measurement_screen.dart';
+import 'package:resq_tools/screens/settings_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 
 class ResistanceScreen extends StatefulWidget {
@@ -42,7 +43,20 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(context.l10n?.resistance_title ?? '')),
+    appBar: AppBar(
+      title: Text(context.l10n?.resistance_title ?? ''),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
+            );
+          },
+        ),
+      ],
+    ),
     body: BlocBuilder<ResistanceCubit, ResistanceState>(
       builder: (context, state) {
         return state.isLoading
