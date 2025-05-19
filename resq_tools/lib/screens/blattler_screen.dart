@@ -12,7 +12,6 @@ class BlattlerScreen extends StatefulWidget {
 }
 
 class _BlattlerScreenState extends State<BlattlerScreen> {
-
   final PdfViewerController _pdfViewerController = PdfViewerController();
   final TextEditingController _searchController = TextEditingController();
   late PdfTextSearchResult _searchResult;
@@ -37,18 +36,19 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
             Text(context.l10n?.blattler_title ?? 'Blattler'),
             if (_currentQuery.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.only(top: 2),
+                padding: const EdgeInsets.only(top: 2, bottom: 4),
                 child: Text(
-                '${context.l10n?.blattler_search_phrase ?? 'Suche'}'
-                    ': $_currentQuery',
+                  '${context.l10n?.blattler_search_phrase ?? 'Suche'}'
+                  ': $_currentQuery',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.white70,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ),
           ],
-        ),        actions: [
+        ),
+        actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
@@ -58,15 +58,17 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
           if (_searchResult.hasResult) ...[
             IconButton(
               icon: const Icon(Icons.navigate_before),
-              onPressed: _searchResult.hasResult
-                  ? () => _searchResult.previousInstance()
-                  : null,
+              onPressed:
+                  _searchResult.hasResult
+                      ? () => _searchResult.previousInstance()
+                      : null,
             ),
             IconButton(
               icon: const Icon(Icons.navigate_next),
-              onPressed: _searchResult.hasResult
-                  ? () => _searchResult.nextInstance()
-                  : null,
+              onPressed:
+                  _searchResult.hasResult
+                      ? () => _searchResult.nextInstance()
+                      : null,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -78,12 +80,13 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
             ),
           ],
         ],
-        bottom: _isSearching
-            ? const PreferredSize(
-          preferredSize: Size.fromHeight(4),
-          child: LinearProgressIndicator(),
-        )
-            : null,
+        bottom:
+            _isSearching
+                ? const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                )
+                : null,
       ),
       body: BlocBuilder<BlattlerCubit, BlattlerState>(
         builder: (context, state) {
@@ -98,9 +101,7 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
                 onDocumentLoaded: _onDocumentLoaded,
               ),
               if (_isSearching)
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                const Center(child: CircularProgressIndicator()),
             ],
           );
         },
@@ -141,12 +142,13 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
       _pdfViewerController.searchText('___dummyString123456789___');
     }
   }
+
   void _openSearchDialog(BuildContext context) {
     showDialog<void>(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title:  Text(context.l10n?.blattler_search_header ?? 'Search in PDF'),
+          title: Text(context.l10n?.blattler_search_header ?? 'Search in PDF'),
           content: TextField(
             controller: _searchController,
             decoration: InputDecoration(
@@ -156,7 +158,7 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child:  Text(context.l10n?.blattler_cancel ?? 'Cancel'),
+              child: Text(context.l10n?.blattler_cancel ?? 'Cancel'),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
@@ -171,4 +173,3 @@ class _BlattlerScreenState extends State<BlattlerScreen> {
     );
   }
 }
-
