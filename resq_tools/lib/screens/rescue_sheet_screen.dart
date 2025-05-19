@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
@@ -50,16 +51,30 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
       child: ListView(
         children: [
           TextFieldCameraSearch(
-            initialText: 'FW-KFZ1',
             labelText: context.l10n?.rescue_sheet_textfield_label,
             errorText: licencePlateErrorText,
             isLoading: state.isLoading,
-            onSearchClicked: (String licencePlate) {
-              final splitLicencePlate = licencePlate.split(
-                licencePlateDelimiter,
-              );
+            inputFormatters: [
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                var text = newValue.text.toUpperCase();
 
-              if (splitLicencePlate.length != 2) {
+                if (oldValue.text.length < 2 &&
+                    text.length == 2 &&
+                    RegExp(r'^[A-Z]{2}$').hasMatch(text)) {
+                  text += licencePlateDelimiter;
+                }
+
+                return TextEditingValue(text: text);
+              }),
+            ],
+            onSearchClicked: (String licencePlate) {
+              final match = RegExp(
+                CameraOcrType.licensePlate.regex,
+              ).firstMatch(licencePlate);
+              final authority = match?.group(1);
+              final number = match?.group(2);
+
+              if (authority == null || number == null) {
                 setState(() {
                   licencePlateErrorText =
                       context.l10n?.rescue_sheet_textfield_error_invalid;
@@ -72,8 +87,8 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
               });
 
               context.read<RescueSheetCubit>().fetchRescueSheet(
-                splitLicencePlate[0],
-                splitLicencePlate[1],
+                authority,
+                number,
               );
             },
             ocrType: CameraOcrType.licensePlate,
