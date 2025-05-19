@@ -26,9 +26,12 @@ class CameraWidget extends StatefulWidget {
 class _CameraWidgetState extends State<CameraWidget> {
   static List<CameraDescription> _cameras = [];
   CameraController? _controller;
+
+  double _baseZoomLevel = 1.0;
   double _currentZoomLevel = 1.0;
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
+
   int _cameraIndex = -1;
   bool _changingCameraLens = false;
 
@@ -62,18 +65,35 @@ class _CameraWidgetState extends State<CameraWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final isReady =
-        !_changingCameraLens &&
-        _cameras.isNotEmpty &&
-        _controller != null &&
-        _controller?.value.isInitialized == true;
-
-    return isReady
+    return _isReady
         ? Stack(
           alignment: Alignment.center,
           children: [
-            CameraPreview(_controller!),
-            _zoomControl(),
+            GestureDetector(
+              onScaleStart: (_) {
+                _baseZoomLevel = _currentZoomLevel;
+              },
+              onScaleUpdate: (details) async {
+                if (_isReady) {
+                  var newZoomLevel =
+                      (_baseZoomLevel * details.scale * 10).roundToDouble() /
+                      10;
+
+                  if (newZoomLevel == _currentZoomLevel ||
+                      newZoomLevel < _minAvailableZoom ||
+                      newZoomLevel > _maxAvailableZoom) {
+                    return;
+                  }
+
+                  setState(() {
+                    _currentZoomLevel = newZoomLevel;
+                  });
+                  await _controller?.setZoomLevel(_currentZoomLevel);
+                }
+              },
+              child: CameraPreview(_controller!),
+            ),
+            _zoomLevel(),
             _switchLiveCameraToggle(),
             _submitButton(),
           ],
@@ -83,6 +103,28 @@ class _CameraWidgetState extends State<CameraWidget> {
           child: CircularProgressIndicator(),
         );
   }
+
+  bool get _isReady =>
+      !_changingCameraLens &&
+      _cameras.isNotEmpty &&
+      _controller != null &&
+      _controller?.value.isInitialized == true;
+
+  Widget _zoomLevel() => Positioned(
+    top: 16,
+    right: 16,
+    child: Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.black54,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        '${_currentZoomLevel.toStringAsFixed(1)}x',
+        style: const TextStyle(color: Colors.white),
+      ),
+    ),
+  );
 
   Widget _switchLiveCameraToggle() => Positioned(
     bottom: 16,
@@ -94,30 +136,6 @@ class _CameraWidgetState extends State<CameraWidget> {
             ? Icons.flip_camera_ios_outlined
             : Icons.flip_camera_android_outlined,
         size: 25,
-      ),
-    ),
-  );
-
-  Widget _zoomControl() => Positioned(
-    top: 16,
-    right: 16,
-    child: RotatedBox(
-      quarterTurns: 3,
-      child: SizedBox(
-        width: 250,
-        child: Slider(
-          value: _currentZoomLevel,
-          min: _minAvailableZoom,
-          max: _maxAvailableZoom,
-          activeColor: Colors.white,
-          inactiveColor: Colors.white30,
-          onChanged: (value) async {
-            setState(() {
-              _currentZoomLevel = value;
-            });
-            await _controller?.setZoomLevel(value);
-          },
-        ),
       ),
     ),
   );
@@ -141,13 +159,11 @@ class _CameraWidgetState extends State<CameraWidget> {
       }
 
       _controller?.getMinZoomLevel().then((value) {
-        _currentZoomLevel = value;
         _minAvailableZoom = value;
       });
       _controller?.getMaxZoomLevel().then((value) {
         _maxAvailableZoom = value;
       });
-
       _controller?.setFlashMode(FlashMode.auto);
 
       _controller?.startImageStream(_processCameraImage).then((value) {
