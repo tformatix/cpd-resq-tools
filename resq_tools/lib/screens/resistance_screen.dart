@@ -90,11 +90,9 @@ ${_measurementConfig.vehicleType.getTranslation(context.l10n)}''',
                     setState(() {
                       _measurementConfig = _measurementConfig.copyWith(
                         vehicleType: value,
-                      );
-                      _weightController.text = value.weight.toString();
-                      _measurementConfig = _measurementConfig.copyWith(
                         weight: value.weight,
                       );
+                      _weightController.text = value.weight.toString();
                     });
                     _updateMeasurementConfig(context);
                   },
