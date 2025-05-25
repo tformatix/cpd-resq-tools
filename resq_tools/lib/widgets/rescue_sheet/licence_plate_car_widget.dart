@@ -24,19 +24,22 @@ class LicencePlateCarWidget extends StatelessWidget {
           title: Text(
             '${licencePlateResultCar.make} ${licencePlateResultCar.model}',
           ),
-          trailing: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) => ResistanceScreen(
-                        inputWeight: licencePlateResultCar.maxTotalWeight,
-                      ),
-                ),
-              );
-            },
-            icon: Icon(Icons.calculate),
+          trailing: SizedBox(
+            width: 40,
+            child: IconButton(
+              icon: const Icon(Icons.calculate),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => ResistanceScreen(
+                          inputWeight: licencePlateResultCar.maxTotalWeight,
+                        ),
+                  ),
+                );
+              },
+            ),
           ),
           selected: selected,
           subtitle: Column(
