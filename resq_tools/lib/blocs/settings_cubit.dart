@@ -4,11 +4,15 @@ import 'package:resq_tools/repositories/settings_repository.dart';
 
 class SettingsState {
   final ThemeMode themeMode;
+  final Locale? languageLocale;
 
-  const SettingsState({required this.themeMode});
+  const SettingsState({required this.themeMode, required this.languageLocale});
 
-  SettingsState copyWith({ThemeMode? themeMode}) {
-    return SettingsState(themeMode: themeMode ?? this.themeMode);
+  SettingsState copyWith({ThemeMode? themeMode, Locale? languageLocale}) {
+    return SettingsState(
+      themeMode: themeMode ?? this.themeMode,
+      languageLocale: languageLocale ?? this.languageLocale,
+    );
   }
 }
 
@@ -16,7 +20,9 @@ class SettingsCubit extends Cubit<SettingsState> {
   final SettingsRepository repository;
 
   SettingsCubit(this.repository)
-    : super(const SettingsState(themeMode: ThemeMode.system)) {
+    : super(
+        const SettingsState(themeMode: ThemeMode.system, languageLocale: null),
+      ) {
     _loadSettings();
   }
 
@@ -27,7 +33,13 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   void setThemeMode(ThemeMode mode) {
     final newState = state.copyWith(themeMode: mode);
-    repository.saveSettings(newState);
+    repository.saveTheme(newState);
+    emit(newState);
+  }
+
+  void setLanguage(Locale locale) {
+    final newState = state.copyWith(languageLocale: locale);
+    repository.saveLanguage(newState);
     emit(newState);
   }
 }
