@@ -50,6 +50,7 @@ class ResQToolsApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => ResistanceCubit(resistanceRepository)),
         BlocProvider(
           create:
               (_) => RescueSheetCubit(
@@ -58,7 +59,6 @@ class ResQToolsApp extends StatelessWidget {
                 storageRepository,
               ),
         ),
-        BlocProvider(create: (_) => ResistanceCubit(resistanceRepository)),
         BlocProvider(create: (_) => SubstanceCubit(substanceRepository)),
         BlocProvider(create: (_) => BlattlerCubit(blattlerRepository)),
         BlocProvider(create: (_) => OnboardingCubit(storageRepository)),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
+import 'package:resq_tools/blocs/resistance_cubit.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
 import 'package:resq_tools/screens/settings_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
@@ -46,6 +47,16 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
   );
 
   Widget _getRescueSheetWidget(BuildContext context, RescueSheetState state) {
+    final licencePlateCar = state.licencePlateResult?.cars.firstOrNull;
+
+    if (licencePlateCar != null && licencePlateCar.maxTotalWeight != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<ResistanceCubit>().setWeightFromCar(
+          licencePlateCar.maxTotalWeight!,
+        );
+      });
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
       child: ListView(
