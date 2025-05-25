@@ -37,7 +37,7 @@
   "body_type_van": "Van",
   "body_type_undefined": "Undefiniert",
 
-  "resistance_weight": "Weight (kN)",
+  "resistance_weight": "Weight (kg)",
   "resistance_gradient": "Gradient (°)",
   "resistance_angle": "Angle",
   "resistance_rolling_resistance": "Rolling resistance",

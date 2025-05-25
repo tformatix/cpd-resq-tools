@@ -31,9 +31,7 @@ class LicencePlateCarWidget extends StatelessWidget {
                 MaterialPageRoute(
                   builder:
                       (context) => ResistanceScreen(
-                        inputWeight: kgToKilonewtons(
-                          licencePlateResultCar.maxTotalWeight,
-                        ),
+                        inputWeight: licencePlateResultCar.maxTotalWeight,
                       ),
                 ),
               );
@@ -62,7 +60,4 @@ class LicencePlateCarWidget extends StatelessWidget {
       ),
     );
   }
-
-  // mass * gravitational acceleration / 1000 (convert to kN)
-  int kgToKilonewtons(int? kg) => (((kg ?? 0) * 9.80665) / 1000).round();
 }

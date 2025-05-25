@@ -37,7 +37,7 @@
   "body_type_van": "Lieferwagen",
   "body_type_undefined": "Undefined",
 
-  "resistance_weight": "Gewicht (kN)",
+  "resistance_weight": "Gewicht (kg)",
   "resistance_gradient": "Steigung (°)",
   "resistance_angle": "Winkel",
   "resistance_rolling_resistance": "Rollwiderstand",
