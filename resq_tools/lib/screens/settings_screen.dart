@@ -30,6 +30,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _getSettingsWidget(BuildContext context, SettingsState state) {
     final settingsItems = <SettingsItem>[
       SettingsItem(
+        title: '${context.l10n?.settings_item_language}',
+        subtitle:
+            state.languageLocale?.localizedName(context) ??
+            '${context.l10n?.settings_item_label_system_default}',
+        icon: Icons.language,
+        onTap: () => _showLanguageBottomSheet(context, state),
+      ),
+      SettingsItem(
         title: '${context.l10n?.settings_item_theme}',
         subtitle: state.themeMode.localizedName(context),
         icon: _getThemeIcon(state.themeMode),
@@ -73,7 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showThemeBottomSheet(BuildContext context, SettingsState state) {
     final items = <ThemeMode, (String title, IconData icon)>{
       ThemeMode.system: (
-        '${context.l10n?.settings_item_theme_system_default}',
+        '${context.l10n?.settings_item_label_system_default}',
         _getThemeIcon(ThemeMode.system),
       ),
       ThemeMode.light: (
@@ -117,4 +125,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ThemeMode.light => Icons.light_mode,
     ThemeMode.dark => Icons.dark_mode,
   };
+
+  void _showLanguageBottomSheet(BuildContext context, SettingsState state) {
+    final items = <Locale>{
+      const Locale('de'),
+      const Locale('en'),
+    };
+
+    final currentLocale = state.languageLocale;
+    final bottomSheetItems =
+        items.map((locale) {
+          return BottomSheetItem(
+            title: locale.localizedName(context),
+            isSelected: currentLocale?.languageCode == locale.languageCode,
+            onTap: () {
+              context.read<SettingsCubit>().setLanguage(locale);
+              Navigator.pop(context);
+            },
+          );
+        }).toList();
+
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      builder: (context) {
+        return BottomSheetList(items: bottomSheetItems);
+      },
+    );
+  }
 }

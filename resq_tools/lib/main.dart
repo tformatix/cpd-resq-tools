@@ -65,12 +65,13 @@ class ResQToolsApp extends StatelessWidget {
         BlocProvider(create: (_) => SettingsCubit(settingsRepository)),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
-        buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
+        buildWhen: (prev, curr) => prev.hashCode != curr.hashCode,
         builder: (context, state) {
           return MaterialApp(
             title: 'ResQTools',
             localizationsDelegates: localizationsDelegates,
             supportedLocales: L10n.all,
+            locale: state.languageLocale,
             theme: ResQToolsTheme.lightTheme,
             darkTheme: ResQToolsTheme.darkTheme,
             themeMode: state.themeMode,

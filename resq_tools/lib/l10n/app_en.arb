@@ -92,10 +92,13 @@
   "onboarding_set_token_later": "Later",
   "onboarding_demo_system": "Demo system",
 
+  "settings_item_label_system_default": "System default",
   "settings_item_change_token": "Change Token",
   "settings_item_change_token_subtitle": "Feuerwehr App Token",
   "settings_item_theme": "Appearance",
-  "settings_item_theme_system_default": "System default",
   "settings_item_theme_light": "Light",
-  "settings_item_theme_dark": "Dark"
+  "settings_item_theme_dark": "Dark",
+  "settings_item_language": "Language",
+  "settings_item_language_english": "English",
+  "settings_item_language_german": "German"
 }

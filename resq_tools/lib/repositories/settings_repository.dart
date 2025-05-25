@@ -3,6 +3,8 @@ import 'package:resq_tools/blocs/settings_cubit.dart';
 import 'package:resq_tools/constants/shared_pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+const languageSystemDefault = 'system';
+
 class SettingsRepository {
   Future<SettingsState> loadSettings() async {
     final sharedPrefs = await SharedPreferences.getInstance();
@@ -14,14 +16,30 @@ class SettingsRepository {
       orElse: () => ThemeMode.system,
     );
 
-    return SettingsState(themeMode: theme);
+    final languageLocaleString =
+        sharedPrefs.getString(SharedPrefsKeys.language) ??
+        languageSystemDefault;
+    var languageLocale =
+        languageLocaleString == languageSystemDefault
+            ? null
+            : Locale.fromSubtags(languageCode: languageLocaleString);
+
+    return SettingsState(themeMode: theme, languageLocale: languageLocale);
   }
 
-  Future<void> saveSettings(SettingsState state) async {
+  Future<void> saveTheme(SettingsState state) async {
     final sharedPrefs = await SharedPreferences.getInstance();
     await sharedPrefs.setString(
       SharedPrefsKeys.themeMode,
       state.themeMode.name,
+    );
+  }
+
+  Future<void> saveLanguage(SettingsState state) async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    await sharedPrefs.setString(
+      SharedPrefsKeys.language,
+      state.languageLocale?.languageCode ?? languageSystemDefault,
     );
   }
 }

@@ -14,7 +14,7 @@ class BottomSheetList extends StatelessWidget {
         children:
             items.map((item) {
               return ListTile(
-                leading: Icon(item.icon),
+                leading: item.icon != null ? Icon(item.icon) : null,
                 selected: item.isSelected,
                 title: Text(item.title),
                 trailing: item.isSelected ? const Icon(Icons.check) : null,
