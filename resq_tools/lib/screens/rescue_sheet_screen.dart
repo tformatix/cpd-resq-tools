@@ -196,9 +196,7 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
                       ),
                     );
                   } else {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text('''
+                    messenger.showSnackBar(SnackBar(content: Text('''
                     ${context.l10n?.rescue_sheet_download_failed}''')));
                   }
                 } else {
