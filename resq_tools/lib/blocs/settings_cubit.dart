@@ -31,15 +31,15 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(savedState);
   }
 
-  void setThemeMode(ThemeMode mode) {
+  Future<void> setThemeMode(ThemeMode mode) async {
     final newState = state.copyWith(themeMode: mode);
-    repository.saveTheme(newState);
+    await repository.saveTheme(newState);
     emit(newState);
   }
 
-  void setLanguage(Locale locale) {
+  Future<void> setLanguage(Locale locale) async {
     final newState = state.copyWith(languageLocale: locale);
-    repository.saveLanguage(newState);
+    await repository.saveLanguage(newState);
     emit(newState);
   }
 }
