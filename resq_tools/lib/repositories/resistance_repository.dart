@@ -5,7 +5,7 @@ import 'package:resq_tools/models/resistance/resistance_result.dart';
 
 class ResistanceRepository {
   ResistanceResult? calculateResistance(MeasurementConfig? measurementConfig) {
-    final weight = measurementConfig?.weight ?? 0.0;
+    final weight = (measurementConfig?.weight ?? 0.0) / 100;
     final rollingResistanceCoefficient =
         measurementConfig?.undergroundType.rollingResistanceCoefficient ?? 0.0;
     final angle = measurementConfig?.angle ?? 0.0;

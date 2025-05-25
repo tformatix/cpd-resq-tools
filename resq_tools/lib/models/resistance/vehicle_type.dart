@@ -1,12 +1,12 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum VehicleType {
-  car(15),
-  suv(17),
-  offroadCar(25),
-  truckTwoAxis(180),
-  truckThreeAxis(260),
-  truckFourAxis(320),
+  car(1500),
+  suv(1700),
+  offroadCar(2500),
+  truckTwoAxis(18000),
+  truckThreeAxis(26000),
+  truckFourAxis(32000),
   custom(0);
 
   final int weight;

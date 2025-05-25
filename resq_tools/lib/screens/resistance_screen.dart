@@ -102,7 +102,6 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
                     .toList(),
           ),
           const SizedBox(height: 12),
-
           TextField(
             controller: _weightController,
             keyboardType: TextInputType.number,
@@ -112,18 +111,20 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
               hintText: context.l10n?.resistance_weight,
               floatingLabelBehavior: FloatingLabelBehavior.always,
               labelText: context.l10n?.resistance_weight,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _weightController.clear();
+                  _measurementConfig = _measurementConfig.copyWith(weight: 0);
+                  _updateMeasurementConfig(context);
+                },
+                icon: Icon(Icons.clear),
+              ),
             ),
             onChanged: (value) {
-              setState(() {
-                _measurementConfig = _measurementConfig.copyWith(
-                  weight: int.tryParse(value),
-                );
-              });
-              _updateMeasurementConfig(context);
+              _updateWeight(context, value);
             },
           ),
           const SizedBox(height: 12),
-
           TextField(
             controller: _angleController,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -170,7 +171,6 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
             },
           ),
           const SizedBox(height: 12),
-
           DropdownMenu<UndergroundType>(
             width: double.infinity,
             initialSelection: _measurementConfig.undergroundType,
@@ -255,6 +255,15 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
       ],
     ),
   );
+
+  void _updateWeight(BuildContext context, String weight) {
+    setState(() {
+      _measurementConfig = _measurementConfig.copyWith(
+        weight: int.tryParse(weight),
+      );
+    });
+    _updateMeasurementConfig(context);
+  }
 
   void _updateMeasurementConfig(BuildContext context) {
     context.read<ResistanceCubit>().updateMeasurementConfig(_measurementConfig);

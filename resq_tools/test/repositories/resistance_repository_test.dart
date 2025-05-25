@@ -25,9 +25,10 @@ void main() {
 
         // Assert
         final expectedRolling =
-            config.weight * config.undergroundType.rollingResistanceCoefficient;
+            (config.weight / 100) *
+            config.undergroundType.rollingResistanceCoefficient;
         final expectedGradient =
-            config.weight * sin(config.angle! * (pi / 180.0));
+            (config.weight / 100) * sin(config.angle! * (pi / 180.0));
         final expectedTotal = expectedRolling + expectedGradient;
 
         expect(result, isNotNull);
