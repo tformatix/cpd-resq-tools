@@ -62,9 +62,10 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
         children: [
+          SizedBox(height: 24),
           TextFieldCameraSearch(
             labelText: context.l10n?.rescue_sheet_textfield_label,
             errorText: licencePlateErrorText,
@@ -110,6 +111,7 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
           ),
           if (!state.isInitialState && !state.isLoading)
             _showResults(context, state),
+          SizedBox(height: 24),
         ],
       ),
     );
@@ -222,8 +224,12 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
                       ),
                     );
                   } else {
-                    messenger.showSnackBar(SnackBar(content: Text('''
-                    ${context.l10n?.rescue_sheet_download_failed}''')));
+                    messenger.showSnackBar(
+                      SnackBar(
+                        content: Text('''
+                    ${context.l10n?.rescue_sheet_download_failed}'''),
+                      ),
+                    );
                   }
                 } else {
                   messenger.showSnackBar(
