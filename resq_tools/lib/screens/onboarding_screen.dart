@@ -184,9 +184,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   );
 
   void _navigateToNextScreen() {
-    Navigator.pushReplacement(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => const ResQToolsHomePage()),
+      (Route<dynamic> route) => false,
     );
   }
 }
