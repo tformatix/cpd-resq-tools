@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_tools/blocs/resistance_cubit.dart';
+import 'package:resq_tools/models/common/bottom_sheet_item.dart';
 import 'package:resq_tools/models/resistance/measurement_config.dart';
 import 'package:resq_tools/models/resistance/resistance_result.dart';
 import 'package:resq_tools/models/resistance/underground_type.dart';
@@ -9,6 +10,7 @@ import 'package:resq_tools/models/resistance/vehicle_type.dart';
 import 'package:resq_tools/screens/angle_measurement_screen.dart';
 import 'package:resq_tools/screens/settings_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
+import 'package:resq_tools/widgets/bottom_sheet_list.dart';
 
 class ResistanceScreen extends StatefulWidget {
   final int? inputWeight;
@@ -74,32 +76,27 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
       child: Column(
         children: [
-          DropdownMenu<VehicleType>(
-            width: double.infinity,
-            initialSelection: _measurementConfig.vehicleType,
-            onSelected: (value) {
-              setState(() {
-                _measurementConfig = _measurementConfig.copyWith(
-                  vehicleType: value,
-                );
-                if (value?.weight != null) {
-                  _weightController.text = value!.weight.toString();
-                  _measurementConfig = _measurementConfig.copyWith(
-                    weight: value.weight,
-                  );
-                }
-              });
-              _updateMeasurementConfig(context);
-            },
-            dropdownMenuEntries:
-                VehicleType.values
-                    .map(
-                      (vehicleType) => DropdownMenuEntry(
-                        value: vehicleType,
-                        label: vehicleType.getTranslation(context.l10n) ?? '',
-                      ),
-                    )
-                    .toList(),
+          _buildDropdownCard(
+            context: context,
+            title: '''
+${_measurementConfig.vehicleType.getTranslation(context.l10n)}''',
+            onTap:
+                () => _showSelectionBottomSheet<VehicleType>(
+                  context: context,
+                  values: VehicleType.values,
+                  selected: _measurementConfig.vehicleType,
+                  getLabel: (v) => v.getTranslation(context.l10n) ?? '',
+                  onSelected: (value) {
+                    setState(() {
+                      _measurementConfig = _measurementConfig.copyWith(
+                        vehicleType: value,
+                        weight: value.weight,
+                      );
+                      _weightController.text = value.weight.toString();
+                    });
+                    _updateMeasurementConfig(context);
+                  },
+                ),
           ),
           const SizedBox(height: 12),
           TextField(
@@ -171,27 +168,26 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
             },
           ),
           const SizedBox(height: 12),
-          DropdownMenu<UndergroundType>(
-            width: double.infinity,
-            initialSelection: _measurementConfig.undergroundType,
-            onSelected: (value) {
-              setState(() {
-                _measurementConfig = _measurementConfig.copyWith(
-                  undergroundType: value,
-                );
-              });
-              _updateMeasurementConfig(context);
-            },
-            dropdownMenuEntries:
-                UndergroundType.values
-                    .map(
-                      (undergroundType) => DropdownMenuEntry(
-                        value: undergroundType,
-                        label:
-                            undergroundType.getTranslation(context.l10n) ?? '',
-                      ),
-                    )
-                    .toList(),
+
+          _buildDropdownCard(
+            context: context,
+            title: '''
+${_measurementConfig.undergroundType.getTranslation(context.l10n)}''',
+            onTap:
+                () => _showSelectionBottomSheet<UndergroundType>(
+                  context: context,
+                  values: UndergroundType.values,
+                  selected: _measurementConfig.undergroundType,
+                  getLabel: (v) => v.getTranslation(context.l10n) ?? '',
+                  onSelected: (value) {
+                    setState(() {
+                      _measurementConfig = _measurementConfig.copyWith(
+                        undergroundType: value,
+                      );
+                    });
+                    _updateMeasurementConfig(context);
+                  },
+                ),
           ),
           const SizedBox(height: 16),
 
@@ -201,6 +197,53 @@ class _ResistanceScreenState extends State<ResistanceScreen> {
       ),
     ),
   );
+
+  Widget _buildDropdownCard({
+    required BuildContext context,
+    required String title,
+    VoidCallback? onTap,
+    double borderRadius = 4.0,
+  }) {
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: 0.0,
+      color: Theme.of(context).colorScheme.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadius),
+        side: BorderSide(color: Theme.of(context).colorScheme.outline),
+      ),
+      child: ListTile(
+        title: Text(title),
+        leading: Icon(Icons.arrow_drop_down_rounded),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  Future<void> _showSelectionBottomSheet<T>({
+    required BuildContext context,
+    required List<T> values,
+    required T? selected,
+    required String Function(T) getLabel,
+    required void Function(T) onSelected,
+  }) async {
+    final items =
+        values.map((value) {
+          return BottomSheetItem(
+            title: getLabel(value),
+            isSelected: value == selected,
+            onTap: () {
+              onSelected(value);
+            },
+          );
+        }).toList();
+
+    await showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => BottomSheetList(items: items),
+    );
+  }
 
   Widget _showResistanceResult(
     BuildContext context,
