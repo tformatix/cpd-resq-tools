@@ -16,6 +16,7 @@
   "rescue_sheet_doors": "Türen",
   "rescue_sheet_no_rescue_card_found_for_car": "Keine Rettungskarte für dieses Auto verfügbar!",
   "rescue_sheet_no_app_token_found": "Kein App Token gefunden. Bitte geben Sie einen gültigen App Token in den Einstellungen ein.",
+  "rescue_sheet_download_failed": "Download fehlgeschlagen",
 
   "powertrain_cng": "Erdgas (CNG)",
   "powertrain_diesel": "Diesel",

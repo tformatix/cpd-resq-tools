@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:resq_tools/blocs/rescue_sheet_cubit.dart';
 import 'package:resq_tools/blocs/resistance_cubit.dart';
 import 'package:resq_tools/models/common/camera_ocr_type.dart';
+import 'package:resq_tools/screens/rescue_sheet_viewer.dart';
 import 'package:resq_tools/screens/settings_screen.dart';
 import 'package:resq_tools/utils/extensions.dart';
 import 'package:resq_tools/widgets/rescue_sheet/euro_rescue_car_widget.dart';
 import 'package:resq_tools/widgets/rescue_sheet/licence_plate_car_widget.dart';
 import 'package:resq_tools/widgets/text_field_camera_search.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RescueSheetScreen extends StatefulWidget {
   const RescueSheetScreen({super.key});
@@ -182,21 +186,47 @@ class _RescueSheetScreenState extends State<RescueSheetScreen> {
           result.cars.map((car) {
             return EuroRescueCarWidget(
               euroRescueCar: car,
-              onTap: () {
+              onTap: () async {
+                final navigator = Navigator.of(context);
+                final messenger = ScaffoldMessenger.of(context);
+
                 var deviceLanguageCode =
                     Localizations.localeOf(context).languageCode;
 
-                var localizedUrl = context
-                    .read<RescueSheetCubit>()
-                    .getLocalizedDocumentUri(deviceLanguageCode, car.documents);
+                var localizedUrl =
+                    context
+                        .read<RescueSheetCubit>()
+                        .getLocalizedDocumentUri(
+                          deviceLanguageCode,
+                          car.documents,
+                        )
+                        ?.toString();
 
                 if (localizedUrl != null) {
-                  launchUrl(
+                  final file = await downloadPdf(
                     localizedUrl,
-                    mode: LaunchMode.externalNonBrowserApplication,
+                    '${car.makeName}_${car.modelName}',
                   );
+                  if (!context.mounted) {
+                    return;
+                  }
+
+                  if (file != null) {
+                    navigator.push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) => PdfViewerScreen(
+                              file,
+                              '${car.makeName} ${car.modelName}',
+                            ),
+                      ),
+                    );
+                  } else {
+                    messenger.showSnackBar(SnackBar(content: Text('''
+                    ${context.l10n?.rescue_sheet_download_failed}''')));
+                  }
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  messenger.showSnackBar(
                     SnackBar(
                       content: Text('''
 ${context.l10n?.rescue_sheet_no_rescue_card_found_for_car}'''),
@@ -209,4 +239,20 @@ ${context.l10n?.rescue_sheet_no_rescue_card_found_for_car}'''),
           }).toList(),
     );
   }
+}
+
+Future<File?> downloadPdf(String url, String filename) async {
+  try {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final bytes = response.bodyBytes;
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/$filename');
+      await file.writeAsBytes(bytes);
+      return file;
+    }
+  } on Exception catch (e) {
+    debugPrint(e.toString());
+  }
+  return null;
 }
