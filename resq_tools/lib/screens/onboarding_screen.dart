@@ -22,26 +22,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   String appToken = '';
 
   @override
-  void initState() {
-    super.initState();
-
-    final state = context.read<OnboardingCubit>().state;
-
-    if (state.appToken != null && state.appToken!.isNotEmpty) {
-      _tokenController.text = state.appToken!;
-      appToken = state.appToken!;
-      isTokenValid = appToken.length >= maxTokenLength;
-    }
-
-    isDemoSystem = state.isDemoSystem;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: BlocBuilder<OnboardingCubit, OnboardingState>(
         builder: (context, state) {
+          if (_tokenController.text.isEmpty &&
+              state.appToken != null &&
+              state.appToken!.isNotEmpty) {
+            _tokenController.text = state.appToken!;
+            appToken = state.appToken!;
+            isTokenValid = appToken.length >= maxTokenLength;
+            isDemoSystem = state.isDemoSystem;
+          }
           return _onboardingWidget(state);
         },
       ),

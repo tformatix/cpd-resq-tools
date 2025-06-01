@@ -61,7 +61,13 @@ class ResQToolsApp extends StatelessWidget {
         ),
         BlocProvider(create: (_) => SubstanceCubit(substanceRepository)),
         BlocProvider(create: (_) => BlattlerCubit(blattlerRepository)),
-        BlocProvider(create: (_) => OnboardingCubit(storageRepository)),
+        BlocProvider(
+          create: (_) {
+            final onboardingCubit = OnboardingCubit(storageRepository);
+            onboardingCubit.fetchOnboardingDetails();
+            return onboardingCubit;
+          },
+        ),
         BlocProvider(create: (_) => SettingsCubit(settingsRepository)),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
@@ -74,6 +80,7 @@ class ResQToolsApp extends StatelessWidget {
             locale: state.languageLocale,
             theme: ResQToolsTheme.lightTheme,
             darkTheme: ResQToolsTheme.darkTheme,
+            debugShowCheckedModeBanner: false,
             themeMode: state.themeMode,
             home: FutureBuilder<String?>(
               future: storageRepository.getAppToken(),

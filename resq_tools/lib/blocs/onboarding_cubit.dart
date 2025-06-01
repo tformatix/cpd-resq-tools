@@ -11,7 +11,14 @@ class OnboardingState {
 class OnboardingCubit extends Cubit<OnboardingState> {
   final StorageRepository storageRepository;
 
-  OnboardingCubit(this.storageRepository) : super(const OnboardingState());
+  OnboardingCubit(this.storageRepository) : super(OnboardingState());
+
+  void fetchOnboardingDetails() async {
+    final appToken = await storageRepository.getAppToken();
+    final isDemoSystem = await storageRepository.getDemoSystem();
+
+    emit(OnboardingState(appToken: appToken, isDemoSystem: isDemoSystem));
+  }
 
   void setOnboardingDetails(String appToken, bool isDemoSystem) async {
     await storageRepository.setAppToken(appToken);
