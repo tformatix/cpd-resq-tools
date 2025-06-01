@@ -9,21 +9,23 @@ class BottomSheetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children:
-            items.map((item) {
-              return ListTile(
-                leading: item.icon != null ? Icon(item.icon) : null,
-                selected: item.isSelected,
-                title: Text(item.title),
-                trailing: item.isSelected ? const Icon(Icons.check) : null,
-                onTap: () {
-                  item.onTap();
-                  Navigator.pop(context);
-                },
-              );
-            }).toList(),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children:
+              items.map((item) {
+                return ListTile(
+                  leading: item.icon != null ? Icon(item.icon) : null,
+                  selected: item.isSelected,
+                  title: Text(item.title),
+                  trailing: item.isSelected ? const Icon(Icons.check) : null,
+                  onTap: () {
+                    item.onTap();
+                    Navigator.pop(context);
+                  },
+                );
+              }).toList(),
+        ),
       ),
     );
   }
