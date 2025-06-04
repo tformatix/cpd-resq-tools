@@ -30,3 +30,14 @@ For detailed calculations related to required forces, refer to the **Forces Tabl
 ### Blattler Integration
 
 - Built-in PDF viewer for the **Blattler**, a crucial operational aid for firefighters.
+
+## Screenshots
+
+<p float="left">
+  <img src="./docs/images/resqsheet.png" width="300" />
+  <img src="./docs/images/resqsheet-detail.png" width="300" /> 
+  <img src="./docs/images/resistance.png" width="300" />
+  <img src="./docs/images/angle-measurement.png" width="300" />
+  <img src="./docs/images/substance.png" width="300" />
+  <img src="./docs/images/blattler.png" width="300" />
+</p>
